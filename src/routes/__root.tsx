@@ -37,20 +37,75 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   useEffect(() => {
     reportLovableError(error, { boundary: "tanstack_root_error_component" });
   }, [error]);
+
+  // Recognise the most common deploy-time failure: missing env vars.
+  const isEnvMissing =
+    error?.message?.includes("Missing Supabase environment variable") ||
+    error?.message?.includes("Missing LOVABLE_API_KEY");
+  const isDev = typeof window !== "undefined" && window.location.hostname === "localhost";
+
   return (
-    <div className="flex min-h-screen items-center justify-center">
-      <div className="max-w-md text-center glass-panel-strong rounded-2xl p-10">
-        <h1 className="text-xl font-semibold text-[#00F2FF]">Signal lost</h1>
-        <p className="mt-2 text-sm text-[#E0F7FA]/60">The portal collapsed unexpectedly.</p>
-        <button
-          onClick={() => {
-            router.invalidate();
-            reset();
-          }}
-          className="mt-6 rounded-full portal-tab px-6 py-2 text-sm text-[#00F2FF]"
-        >
-          Reopen portal
-        </button>
+    <div className="flex min-h-screen items-center justify-center px-4">
+      <div className="max-w-xl text-center glass-panel-strong rounded-2xl p-10">
+        <h1 className="text-xl font-semibold text-[#00F2FF]">
+          {isEnvMissing ? "Setup required" : "Signal lost"}
+        </h1>
+        <p className="mt-2 text-sm text-[#E0F7FA]/70">
+          {isEnvMissing
+            ? "The portal is missing its configuration."
+            : "The portal collapsed unexpectedly."}
+        </p>
+
+        {/* Env-missing hint — the #1 cause on first deploy */}
+        {isEnvMissing && (
+          <div className="mt-4 text-left text-xs font-mono text-amber-300/90 bg-black/40 rounded-lg p-3 border border-amber-500/20">
+            <p className="mb-2 text-amber-200 font-semibold">{error.message}</p>
+            <p className="text-amber-300/70">
+              Set these in Vercel → Settings → Environment Variables, then redeploy:
+            </p>
+            <ul className="mt-1 list-disc list-inside">
+              <li>VITE_SUPABASE_URL</li>
+              <li>VITE_SUPABASE_PUBLISHABLE_KEY</li>
+              <li>SUPABASE_URL / SUPABASE_PUBLISHABLE_KEY</li>
+            </ul>
+          </div>
+        )}
+
+        {/* Show the raw error in dev (or when a URL param requests it) */}
+        {(isDev || (typeof window !== "undefined" && window.location.search.includes("debug"))) && (
+          <details className="mt-4 text-left text-[11px] font-mono text-[#E0F7FA]/60 bg-black/40 rounded-lg p-3 border border-white/10">
+            <summary className="cursor-pointer text-[#00F2FF]/80">Error details</summary>
+            <p className="mt-2 whitespace-pre-wrap break-words">
+              {error?.message ?? String(error)}
+            </p>
+            {error?.stack && (
+              <pre className="mt-2 whitespace-pre-wrap break-words text-[10px] text-[#E0F7FA]/40 max-h-64 overflow-auto">
+                {error.stack}
+              </pre>
+            )}
+          </details>
+        )}
+
+        <div className="mt-6 flex gap-2 justify-center flex-wrap">
+          <button
+            onClick={() => {
+              router.invalidate();
+              reset();
+            }}
+            className="rounded-full portal-tab px-6 py-2 text-sm text-[#00F2FF]"
+          >
+            Reopen portal
+          </button>
+          <a
+            href={`${typeof window !== "undefined" ? window.location.pathname : "/"}?debug=1`}
+            className="rounded-full glass-panel px-6 py-2 text-sm text-[#E0F7FA]/80 hover:text-[#00F2FF]"
+          >
+            Show error
+          </a>
+        </div>
+        <p className="mt-4 text-[10px] font-mono text-[#E0F7FA]/40">
+          Open DevTools console for the full stack trace.
+        </p>
       </div>
     </div>
   );
