@@ -1,0 +1,545 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --font-display: "Orbitron", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --radius: 0.75rem;
+  --background: hsl(213 41% 5%);
+  --foreground: hsl(187 47% 93%);
+  --card: hsl(215 38% 9%);
+  --card-foreground: hsl(0 0% 98%);
+  --popover: hsl(215 38% 9%);
+  --popover-foreground: hsl(0 0% 98%);
+  --primary: hsl(186 100% 50%);
+  --primary-foreground: hsl(213 41% 5%);
+  --secondary: hsl(215 30% 14%);
+  --secondary-foreground: hsl(0 0% 98%);
+  --muted: hsl(215 30% 14%);
+  --muted-foreground: hsl(187 20% 65%);
+  --accent: hsl(263 84% 60%);
+  --accent-foreground: hsl(0 0% 98%);
+  --destructive: hsl(0 62.8% 45%);
+  --destructive-foreground: hsl(0 0% 98%);
+  --border: hsl(187 40% 20% / 0.25);
+  --input: hsl(215 30% 14%);
+  --ring: hsl(186 100% 50%);
+  --sidebar: hsl(213 41% 6%);
+  --sidebar-foreground: hsl(187 47% 90%);
+  --sidebar-primary: hsl(186 100% 50%);
+  --sidebar-primary-foreground: hsl(213 41% 5%);
+  --sidebar-accent: hsl(215 30% 14%);
+  --sidebar-accent-foreground: hsl(0 0% 98%);
+  --sidebar-border: hsl(187 40% 20% / 0.25);
+  --sidebar-ring: hsl(186 100% 50%);
+}
+
+.dark { color-scheme: dark; }
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html, body { background-color: #040818; color: var(--color-foreground); font-family: var(--font-body); }
+  body { min-height: 100vh; }
+}
+
+/* Base44 futuristic utilities */
+.glass-panel {
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 242, 255, 0.1);
+}
+.glass-panel-strong {
+  background: rgba(11, 16, 26, 0.85);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(0, 242, 255, 0.14);
+}
+.animated-grid {
+  background-image:
+    linear-gradient(rgba(0, 245, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 245, 255, 0.04) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: gridMove 20s linear infinite;
+}
+@keyframes gridMove {
+  0% { background-position: 0 0; }
+  100% { background-position: 50px 50px; }
+}
+@keyframes nebula {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.55; }
+  50% { transform: translate(30px, -20px) scale(1.1); opacity: 0.8; }
+}
+.animate-nebula { animation: nebula 12s ease-in-out infinite; }
+
+@keyframes lensPulse {
+  0%, 100% { filter: url(#gravitational-lens) blur(0.2px); }
+  50% { filter: url(#gravitational-lens) blur(0.6px); }
+}
+.lens-warp { filter: url(#gravitational-lens); }
+.lens-warp-strong { filter: url(#gravitational-lens-strong); }
+
+.portal-tab {
+  border-radius: 999px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 242, 255, 0.14) 0%,
+    rgba(124, 58, 237, 0.10) 45%,
+    rgba(11, 16, 26, 0.6) 100%
+  );
+  border: 1px solid rgba(0, 242, 255, 0.25);
+  box-shadow:
+    inset 0 0 24px rgba(0, 242, 255, 0.2),
+    0 0 32px rgba(0, 242, 255, 0.18);
+  transition: all 0.3s ease;
+}
+.portal-tab:hover {
+  border-color: rgba(0, 242, 255, 0.55);
+  box-shadow:
+    inset 0 0 40px rgba(0, 242, 255, 0.35),
+    0 0 56px rgba(0, 242, 255, 0.35);
+  transform: scale(1.06);
+}
+.portal-tab.active {
+  border-color: rgba(0, 242, 255, 0.8);
+  box-shadow:
+    inset 0 0 50px rgba(0, 242, 255, 0.5),
+    0 0 72px rgba(0, 242, 255, 0.45);
+}
+
+/* ─────────── 3D Scene Enhancements (added by Paddle+3D rework) ─────────── */
+
+/* Root scene container: enables 3D transforms on children */
+.scene-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.06s linear;
+}
+
+/* Glass panels get a beveled, refractive edge highlight */
+.glass-panel, .glass-panel-strong {
+  position: relative;
+  transform-style: preserve-3d;
+  transition:
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.4s ease,
+    border-color 0.4s ease;
+}
+.glass-panel::before, .glass-panel-strong::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    linear-gradient(135deg, rgba(0,242,255,0.14) 0%, transparent 35%),
+    linear-gradient(315deg, rgba(124,58,237,0.10) 0%, transparent 40%);
+  mix-blend-mode: screen;
+  opacity: 0.9;
+}
+.glass-panel::after, .glass-panel-strong::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.35),
+    inset 1px 0 0 rgba(0, 242, 255, 0.08),
+    inset -1px 0 0 rgba(124, 58, 237, 0.08);
+}
+
+/* Hover tilt-3d utility (applied by billing cards + anywhere) */
+.tilt-3d {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s ease;
+  transform: perspective(1200px) translateZ(0);
+  will-change: transform;
+}
+.tilt-3d:hover {
+  transform: perspective(1200px) translateZ(30px) rotateX(-4deg) rotateY(5deg);
+  box-shadow:
+    0 25px 60px -20px rgba(0, 242, 255, 0.35),
+    0 10px 30px -10px rgba(124, 58, 237, 0.25);
+}
+
+/* Drag-hint animation */
+@keyframes hintFade {
+  0%   { opacity: 0; transform: translate(-50%, 10px); }
+  15%  { opacity: 1; transform: translate(-50%, 0); }
+  85%  { opacity: 1; transform: translate(-50%, 0); }
+  100% { opacity: 0; transform: translate(-50%, -6px); }
+}
+
+/* Cursor affordance for the world drag */
+body { cursor: grab; }
+body:active { cursor: grabbing; }
+button, a, input, textarea, select, [role="button"] { cursor: pointer; }
+input, textarea, select { cursor: text; }
+
+/* Reduced motion fallback */
+@media (prefers-reduced-motion: reduce) {
+  .tilt-3d:hover { transform: none; }
+  .scene-3d { transform: none !important; }
+  .glass-panel::before, .glass-panel-strong::before { animation: none; }
+}
+
+/* ─────────── Plan orb interior swirl ─────────── */
+@keyframes orbSwirl {
+  0%, 100% { transform: rotate(0deg) scale(1); filter: hue-rotate(0deg); }
+  50%      { transform: rotate(180deg) scale(1.05); filter: hue-rotate(30deg); }
+}
+
+/* Orb button: no default button chrome, generous focus ring */
+.orb-btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  transition:
+    filter 0.4s ease,
+    transform 0.06s linear;
+}
+.orb-btn:disabled { cursor: default; }
+
+/* ─────────── visionOS enhancements (added) ─────────── */
+
+/* Wireframe globe spin (BootScreen + Auth) */
+@keyframes bootGlobeSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Ring pulses (BootScreen) */
+@keyframes bootRingPulse {
+  0%   { opacity: 0.6; transform: scale(0.6); }
+  100% { opacity: 0;   transform: scale(1.2); }
+}
+
+/* Landing feature orbs floating idle */
+@keyframes orbFloat {
+  0%, 100% { transform: translateY(0);     }
+  50%      { transform: translateY(-10px); }
+}
+
+/* Sidebar orb tabs — 3D preserve on link containers */
+a:has(> .mini-orb-tab) { display: block; }
+
+/* Nebula pulse already defined earlier in this file (see `.animate-nebula`
+   at the top of the utilities block). No fallback needed. */
+
+/* Prevent chromatic text-shadow from disappearing under blur filters */
+main.lens-warp h1 {
+  filter: none;
+}
+
+/* Siri-style rotating conic aura */
+@keyframes siriConic {
+  from { transform: rotate(0deg);   }
+  to   { transform: rotate(360deg); }
+}
+
+/* Rippling caustic overlay for future extensibility */
+@keyframes causticShift {
+  0%   { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
+}
+
+/* ─────────── HD atmosphere pass ─────────── */
+
+/* Global film-grain overlay (very subtle) */
+.film-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.7'/></svg>");
+  animation: grainShift 0.6s steps(6) infinite;
+}
+@keyframes grainShift {
+  0%   { transform: translate(0,0); }
+  20%  { transform: translate(-1%,1%); }
+  40%  { transform: translate(1%,-1%); }
+  60%  { transform: translate(-2%,-1%); }
+  80%  { transform: translate(2%,1%); }
+  100% { transform: translate(0,0); }
+}
+
+/* Faint horizontal scanlines */
+.scanlines {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  pointer-events: none;
+  opacity: 0.04;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.6) 0px,
+    rgba(255,255,255,0.6) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+/* Body-level chromatic vignette (behind everything) */
+.hd-vignette {
+  position: fixed;
+  inset: 0;
+  z-index: -8;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 40%,
+    rgba(0,0,0,0.4) 100%
+  );
+}
+
+/* ─────────── God-ray + wave animations ─────────── */
+@keyframes raySway {
+  0%   { transform: skewX(0deg) translateX(0px);   opacity: 0.55; }
+  50%  { transform: skewX(2deg) translateX(30px);  opacity: 0.75; }
+  100% { transform: skewX(-2deg) translateX(-30px); opacity: 0.55; }
+}
+@keyframes rayFlicker {
+  0%,100% { opacity: 0.85; }
+  20%     { opacity: 0.55; }
+  40%     { opacity: 0.95; }
+  70%     { opacity: 0.65; }
+}
+@keyframes causticDrift {
+  0%   { background-position: 0px 0px, 0 0; }
+  100% { background-position: 1000px 1000px, 0 0; }
+}
+
+/* Ambient toggle pulse */
+@keyframes ambientPulse {
+  0%,100% {
+    box-shadow:
+      inset -6px -8px 16px rgba(0,0,0,0.5),
+      0 0 20px rgba(0,242,255,0.5),
+      0 0 6px rgba(0,242,255,0.4);
+  }
+  50% {
+    box-shadow:
+      inset -6px -8px 16px rgba(0,0,0,0.5),
+      0 0 40px rgba(0,242,255,0.95),
+      0 0 20px rgba(0,242,255,0.75);
+  }
+}
+
+/* Sparkling floaters (little rising bubbles) */
+@keyframes bubbleRise {
+  0%   { transform: translateY(0) scale(1);   opacity: 0;   }
+  10%  { opacity: 0.9; }
+  100% { transform: translateY(-110vh) scale(0.4); opacity: 0; }
+}
+
+/* Slow soft rotation used by mandala halos */
+@keyframes slowSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ─────────── BezelLens animations ─────────── */
+
+@keyframes bezelHueDrift {
+  0%   { filter: hue-rotate(0deg);   }
+  100% { filter: hue-rotate(60deg);  }
+}
+
+@keyframes bezelEdgePulse {
+  0%,100% { opacity: 0.35; transform: scaleX(0.8); }
+  50%     { opacity: 0.95; transform: scaleX(1); }
+}
+
+@keyframes bezelSingularity {
+  0%,100% { transform: scale(1);    opacity: 0.65; }
+  50%     { transform: scale(1.35); opacity: 1;    }
+}
+
+/* Bead travels clockwise around the viewport perimeter.
+   We use `top`+`left` keyframes on a fixed-position element.
+   Corners at ~20px inset. */
+@keyframes bezelBead {
+  0%,100% { top: 20px;              left: 20px;              }
+  22%     { top: 20px;              left: calc(100% - 20px); }
+  27%     { top: 20px;              left: calc(100% - 20px); }
+  47%     { top: calc(100% - 20px); left: calc(100% - 20px); }
+  52%     { top: calc(100% - 20px); left: calc(100% - 20px); }
+  72%     { top: calc(100% - 20px); left: 20px;              }
+  77%     { top: calc(100% - 20px); left: 20px;              }
+  97%     { top: 20px;              left: 20px;              }
+}
+
+/* Mic-page concentric pulse rings */
+@keyframes micRing {
+  0%   { opacity: 0.75; transform: scale(0.6); }
+  100% { opacity: 0;    transform: scale(1.15); }
+}
+
+/* ─────────── Feature-batch keyframes ─────────── */
+
+/* Portal-dive overlay hard-clears after animation */
+@keyframes portalDiveFade {
+  0%   { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Aurora ribbon wave */
+@keyframes auroraWave {
+  0%   { transform: translateX(-30px) scaleX(1);   filter: hue-rotate(0deg); }
+  100% { transform: translateX(30px) scaleX(1.08); filter: hue-rotate(40deg); }
+}
+
+/* Rave-mode conic-gradient spin */
+@keyframes raveSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Screen shake — driven by --shake-mag CSS var */
+@keyframes shakeKey {
+  0%,100% { transform: translate(0, 0); }
+  10%     { transform: translate(calc(var(--shake-mag,4px) * -1), 1px); }
+  20%     { transform: translate(var(--shake-mag,4px), -1px); }
+  30%     { transform: translate(calc(var(--shake-mag,4px) * -0.6), 2px); }
+  40%     { transform: translate(calc(var(--shake-mag,4px) * 0.8), -2px); }
+  50%     { transform: translate(calc(var(--shake-mag,4px) * -0.4), 1px); }
+  60%     { transform: translate(calc(var(--shake-mag,4px) * 0.6), -1px); }
+  70%,90% { transform: translate(0, 0); }
+}
+body.shake-anim { animation: shakeKey 0.4s ease-out; }
+
+/* Custom cursor: hide native cursor globally when CursorSystem is active,
+   but keep it usable inside text inputs so people can type. */
+body.cursor-orb-active,
+body.cursor-orb-active * {
+  cursor: none !important;
+}
+body.cursor-orb-active input,
+body.cursor-orb-active textarea,
+body.cursor-orb-active [contenteditable="true"] {
+  cursor: text !important;
+}
+
+/* Time-of-day palette drift — expose var; nebula blob tints could reference it */
+:root { --tod-hue: 210; }
+
+/* Singularity slow rotate for the master AI dialog */
+@keyframes singularitySpin {
+  0%   { transform: rotate(0deg)   scale(1);    }
+  50%  { transform: rotate(180deg) scale(1.08); }
+  100% { transform: rotate(360deg) scale(1);    }
+}
+
+/* ─────────── Extra gravity-lens vibes across the design ─────────── */
+
+/* Subtle SVG displacement warp for any element — heavier than .lens-warp */
+.gravity-warp { filter: url(#gravitational-lens); }
+
+/* Ring of chromatic distortion around any element (add via className).
+   Uses radial-gradient + mix-blend + slow rotation to imply a lens halo. */
+.gravity-lens-halo {
+  position: relative;
+  isolation: isolate;
+}
+.gravity-lens-halo::before {
+  content: "";
+  position: absolute;
+  inset: -18px;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    conic-gradient(from 0deg,
+      rgba(0,242,255,0.18),
+      rgba(124,58,237,0.18),
+      rgba(236,72,153,0.16),
+      rgba(255,215,150,0.12),
+      rgba(0,242,255,0.18));
+  filter: blur(10px);
+  animation: gravityHaloSpin 22s linear infinite;
+  z-index: -1;
+  opacity: 0.7;
+}
+.gravity-lens-halo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255,255,255,0.14) 0%, transparent 40%),
+    radial-gradient(circle at 70% 80%, rgba(124,58,237,0.16) 0%, transparent 50%);
+  mix-blend-mode: screen;
+}
+@keyframes gravityHaloSpin {
+  from { transform: rotate(0deg);   }
+  to   { transform: rotate(360deg); }
+}
+
+/* Ominous mode toggle — deeper vignette + saturation shift for /multiverse */
+body.ominous {
+  filter: saturate(0.85) contrast(1.12);
+}
+body.ominous::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 89;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.45) 100%);
+  transition: opacity 0.6s;
+}
+
+/* Arm-tap flash on the target orb */
+@keyframes orbTapKick {
+  0%   { transform: scale(1); filter: brightness(1); }
+  40%  { transform: scale(1.14); filter: brightness(1.6); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+.orb-tapped { animation: orbTapKick 0.28s ease-out; }
+
+/* Tutorial spotlight breathing */
+@keyframes spotlightBreath {
+  0%,100% { box-shadow: 0 0 0 4px rgba(0,242,255,0.65), 0 0 40px 10px rgba(0,242,255,0.55), 0 0 100px 30px rgba(124,58,237,0.4); }
+  50%     { box-shadow: 0 0 0 6px rgba(0,242,255,0.85), 0 0 60px 14px rgba(0,242,255,0.75), 0 0 140px 40px rgba(124,58,237,0.55); }
+}
