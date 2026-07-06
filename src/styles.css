@@ -73,12 +73,23 @@
   --sidebar-ring: hsl(186 100% 50%);
 }
 
-.dark { color-scheme: dark; }
+.dark {
+  color-scheme: dark;
+}
 
 @layer base {
-  * { border-color: var(--color-border); }
-  html, body { background-color: #040818; color: var(--color-foreground); font-family: var(--font-body); }
-  body { min-height: 100vh; }
+  * {
+    border-color: var(--color-border);
+  }
+  html,
+  body {
+    background-color: #040818;
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+  }
+  body {
+    min-height: 100vh;
+  }
 }
 
 /* Base44 futuristic utilities */
@@ -100,28 +111,50 @@
   animation: gridMove 20s linear infinite;
 }
 @keyframes gridMove {
-  0% { background-position: 0 0; }
-  100% { background-position: 50px 50px; }
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 50px 50px;
+  }
 }
 @keyframes nebula {
-  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.55; }
-  50% { transform: translate(30px, -20px) scale(1.1); opacity: 0.8; }
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate(30px, -20px) scale(1.1);
+    opacity: 0.8;
+  }
 }
-.animate-nebula { animation: nebula 12s ease-in-out infinite; }
+.animate-nebula {
+  animation: nebula 12s ease-in-out infinite;
+}
 
 @keyframes lensPulse {
-  0%, 100% { filter: url(#gravitational-lens) blur(0.2px); }
-  50% { filter: url(#gravitational-lens) blur(0.6px); }
+  0%,
+  100% {
+    filter: url(#gravitational-lens) blur(0.2px);
+  }
+  50% {
+    filter: url(#gravitational-lens) blur(0.6px);
+  }
 }
-.lens-warp { filter: url(#gravitational-lens); }
-.lens-warp-strong { filter: url(#gravitational-lens-strong); }
+.lens-warp {
+  filter: url(#gravitational-lens);
+}
+.lens-warp-strong {
+  filter: url(#gravitational-lens-strong);
+}
 
 .portal-tab {
   border-radius: 999px;
   background: radial-gradient(
     ellipse at center,
     rgba(0, 242, 255, 0.14) 0%,
-    rgba(124, 58, 237, 0.10) 45%,
+    rgba(124, 58, 237, 0.1) 45%,
     rgba(11, 16, 26, 0.6) 100%
   );
   border: 1px solid rgba(0, 242, 255, 0.25);
@@ -153,7 +186,8 @@
 }
 
 /* Glass panels get a beveled, refractive edge highlight */
-.glass-panel, .glass-panel-strong {
+.glass-panel,
+.glass-panel-strong {
   position: relative;
   transform-style: preserve-3d;
   transition:
@@ -161,19 +195,21 @@
     box-shadow 0.4s ease,
     border-color 0.4s ease;
 }
-.glass-panel::before, .glass-panel-strong::before {
+.glass-panel::before,
+.glass-panel-strong::before {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
   background:
-    linear-gradient(135deg, rgba(0,242,255,0.14) 0%, transparent 35%),
-    linear-gradient(315deg, rgba(124,58,237,0.10) 0%, transparent 40%);
+    linear-gradient(135deg, rgba(0, 242, 255, 0.14) 0%, transparent 35%),
+    linear-gradient(315deg, rgba(124, 58, 237, 0.1) 0%, transparent 40%);
   mix-blend-mode: screen;
   opacity: 0.9;
 }
-.glass-panel::after, .glass-panel-strong::after {
+.glass-panel::after,
+.glass-panel-strong::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -188,8 +224,9 @@
 
 /* Hover tilt-3d utility (applied by billing cards + anywhere) */
 .tilt-3d {
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.4s ease;
+  transition:
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.4s ease;
   transform: perspective(1200px) translateZ(0);
   will-change: transform;
 }
@@ -202,29 +239,70 @@
 
 /* Drag-hint animation */
 @keyframes hintFade {
-  0%   { opacity: 0; transform: translate(-50%, 10px); }
-  15%  { opacity: 1; transform: translate(-50%, 0); }
-  85%  { opacity: 1; transform: translate(-50%, 0); }
-  100% { opacity: 0; transform: translate(-50%, -6px); }
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+  15% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  85% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -6px);
+  }
 }
 
 /* Cursor affordance for the world drag */
-body { cursor: grab; }
-body:active { cursor: grabbing; }
-button, a, input, textarea, select, [role="button"] { cursor: pointer; }
-input, textarea, select { cursor: text; }
+body {
+  cursor: grab;
+}
+body:active {
+  cursor: grabbing;
+}
+button,
+a,
+input,
+textarea,
+select,
+[role="button"] {
+  cursor: pointer;
+}
+input,
+textarea,
+select {
+  cursor: text;
+}
 
 /* Reduced motion fallback */
 @media (prefers-reduced-motion: reduce) {
-  .tilt-3d:hover { transform: none; }
-  .scene-3d { transform: none !important; }
-  .glass-panel::before, .glass-panel-strong::before { animation: none; }
+  .tilt-3d:hover {
+    transform: none;
+  }
+  .scene-3d {
+    transform: none !important;
+  }
+  .glass-panel::before,
+  .glass-panel-strong::before {
+    animation: none;
+  }
 }
 
 /* ─────────── Plan orb interior swirl ─────────── */
 @keyframes orbSwirl {
-  0%, 100% { transform: rotate(0deg) scale(1); filter: hue-rotate(0deg); }
-  50%      { transform: rotate(180deg) scale(1.05); filter: hue-rotate(30deg); }
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1);
+    filter: hue-rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.05);
+    filter: hue-rotate(30deg);
+  }
 }
 
 /* Orb button: no default button chrome, generous focus ring */
@@ -236,30 +314,49 @@ input, textarea, select { cursor: text; }
     filter 0.4s ease,
     transform 0.06s linear;
 }
-.orb-btn:disabled { cursor: default; }
+.orb-btn:disabled {
+  cursor: default;
+}
 
 /* ─────────── visionOS enhancements (added) ─────────── */
 
 /* Wireframe globe spin (BootScreen + Auth) */
 @keyframes bootGlobeSpin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Ring pulses (BootScreen) */
 @keyframes bootRingPulse {
-  0%   { opacity: 0.6; transform: scale(0.6); }
-  100% { opacity: 0;   transform: scale(1.2); }
+  0% {
+    opacity: 0.6;
+    transform: scale(0.6);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.2);
+  }
 }
 
 /* Landing feature orbs floating idle */
 @keyframes orbFloat {
-  0%, 100% { transform: translateY(0);     }
-  50%      { transform: translateY(-10px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 /* Sidebar orb tabs — 3D preserve on link containers */
-a:has(> .mini-orb-tab) { display: block; }
+a:has(> .mini-orb-tab) {
+  display: block;
+}
 
 /* Nebula pulse already defined earlier in this file (see `.animate-nebula`
    at the top of the utilities block). No fallback needed. */
@@ -271,14 +368,22 @@ main.lens-warp h1 {
 
 /* Siri-style rotating conic aura */
 @keyframes siriConic {
-  from { transform: rotate(0deg);   }
-  to   { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Rippling caustic overlay for future extensibility */
 @keyframes causticShift {
-  0%   { background-position: 0% 0%; }
-  100% { background-position: 100% 100%; }
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
 }
 
 /* ─────────── HD atmosphere pass ─────────── */
@@ -295,12 +400,24 @@ main.lens-warp h1 {
   animation: grainShift 0.6s steps(6) infinite;
 }
 @keyframes grainShift {
-  0%   { transform: translate(0,0); }
-  20%  { transform: translate(-1%,1%); }
-  40%  { transform: translate(1%,-1%); }
-  60%  { transform: translate(-2%,-1%); }
-  80%  { transform: translate(2%,1%); }
-  100% { transform: translate(0,0); }
+  0% {
+    transform: translate(0, 0);
+  }
+  20% {
+    transform: translate(-1%, 1%);
+  }
+  40% {
+    transform: translate(1%, -1%);
+  }
+  60% {
+    transform: translate(-2%, -1%);
+  }
+  80% {
+    transform: translate(2%, 1%);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
 }
 
 /* Faint horizontal scanlines */
@@ -312,8 +429,8 @@ main.lens-warp h1 {
   opacity: 0.04;
   background: repeating-linear-gradient(
     to bottom,
-    rgba(255,255,255,0.6) 0px,
-    rgba(255,255,255,0.6) 1px,
+    rgba(255, 255, 255, 0.6) 0px,
+    rgba(255, 255, 255, 0.6) 1px,
     transparent 1px,
     transparent 3px
   );
@@ -325,129 +442,249 @@ main.lens-warp h1 {
   inset: 0;
   z-index: -8;
   pointer-events: none;
-  background: radial-gradient(
-    ellipse at center,
-    transparent 40%,
-    rgba(0,0,0,0.4) 100%
-  );
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.4) 100%);
 }
 
 /* ─────────── God-ray + wave animations ─────────── */
 @keyframes raySway {
-  0%   { transform: skewX(0deg) translateX(0px);   opacity: 0.55; }
-  50%  { transform: skewX(2deg) translateX(30px);  opacity: 0.75; }
-  100% { transform: skewX(-2deg) translateX(-30px); opacity: 0.55; }
+  0% {
+    transform: skewX(0deg) translateX(0px);
+    opacity: 0.55;
+  }
+  50% {
+    transform: skewX(2deg) translateX(30px);
+    opacity: 0.75;
+  }
+  100% {
+    transform: skewX(-2deg) translateX(-30px);
+    opacity: 0.55;
+  }
 }
 @keyframes rayFlicker {
-  0%,100% { opacity: 0.85; }
-  20%     { opacity: 0.55; }
-  40%     { opacity: 0.95; }
-  70%     { opacity: 0.65; }
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+  20% {
+    opacity: 0.55;
+  }
+  40% {
+    opacity: 0.95;
+  }
+  70% {
+    opacity: 0.65;
+  }
 }
 @keyframes causticDrift {
-  0%   { background-position: 0px 0px, 0 0; }
-  100% { background-position: 1000px 1000px, 0 0; }
+  0% {
+    background-position:
+      0px 0px,
+      0 0;
+  }
+  100% {
+    background-position:
+      1000px 1000px,
+      0 0;
+  }
 }
 
 /* Ambient toggle pulse */
 @keyframes ambientPulse {
-  0%,100% {
+  0%,
+  100% {
     box-shadow:
-      inset -6px -8px 16px rgba(0,0,0,0.5),
-      0 0 20px rgba(0,242,255,0.5),
-      0 0 6px rgba(0,242,255,0.4);
+      inset -6px -8px 16px rgba(0, 0, 0, 0.5),
+      0 0 20px rgba(0, 242, 255, 0.5),
+      0 0 6px rgba(0, 242, 255, 0.4);
   }
   50% {
     box-shadow:
-      inset -6px -8px 16px rgba(0,0,0,0.5),
-      0 0 40px rgba(0,242,255,0.95),
-      0 0 20px rgba(0,242,255,0.75);
+      inset -6px -8px 16px rgba(0, 0, 0, 0.5),
+      0 0 40px rgba(0, 242, 255, 0.95),
+      0 0 20px rgba(0, 242, 255, 0.75);
   }
 }
 
 /* Sparkling floaters (little rising bubbles) */
 @keyframes bubbleRise {
-  0%   { transform: translateY(0) scale(1);   opacity: 0;   }
-  10%  { opacity: 0.9; }
-  100% { transform: translateY(-110vh) scale(0.4); opacity: 0; }
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(-110vh) scale(0.4);
+    opacity: 0;
+  }
 }
 
 /* Slow soft rotation used by mandala halos */
 @keyframes slowSpin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ─────────── BezelLens animations ─────────── */
 
 @keyframes bezelHueDrift {
-  0%   { filter: hue-rotate(0deg);   }
-  100% { filter: hue-rotate(60deg);  }
+  0% {
+    filter: hue-rotate(0deg);
+  }
+  100% {
+    filter: hue-rotate(60deg);
+  }
 }
 
 @keyframes bezelEdgePulse {
-  0%,100% { opacity: 0.35; transform: scaleX(0.8); }
-  50%     { opacity: 0.95; transform: scaleX(1); }
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scaleX(0.8);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scaleX(1);
+  }
 }
 
 @keyframes bezelSingularity {
-  0%,100% { transform: scale(1);    opacity: 0.65; }
-  50%     { transform: scale(1.35); opacity: 1;    }
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.65;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 1;
+  }
 }
 
 /* Bead travels clockwise around the viewport perimeter.
    We use `top`+`left` keyframes on a fixed-position element.
    Corners at ~20px inset. */
 @keyframes bezelBead {
-  0%,100% { top: 20px;              left: 20px;              }
-  22%     { top: 20px;              left: calc(100% - 20px); }
-  27%     { top: 20px;              left: calc(100% - 20px); }
-  47%     { top: calc(100% - 20px); left: calc(100% - 20px); }
-  52%     { top: calc(100% - 20px); left: calc(100% - 20px); }
-  72%     { top: calc(100% - 20px); left: 20px;              }
-  77%     { top: calc(100% - 20px); left: 20px;              }
-  97%     { top: 20px;              left: 20px;              }
+  0%,
+  100% {
+    top: 20px;
+    left: 20px;
+  }
+  22% {
+    top: 20px;
+    left: calc(100% - 20px);
+  }
+  27% {
+    top: 20px;
+    left: calc(100% - 20px);
+  }
+  47% {
+    top: calc(100% - 20px);
+    left: calc(100% - 20px);
+  }
+  52% {
+    top: calc(100% - 20px);
+    left: calc(100% - 20px);
+  }
+  72% {
+    top: calc(100% - 20px);
+    left: 20px;
+  }
+  77% {
+    top: calc(100% - 20px);
+    left: 20px;
+  }
+  97% {
+    top: 20px;
+    left: 20px;
+  }
 }
 
 /* Mic-page concentric pulse rings */
 @keyframes micRing {
-  0%   { opacity: 0.75; transform: scale(0.6); }
-  100% { opacity: 0;    transform: scale(1.15); }
+  0% {
+    opacity: 0.75;
+    transform: scale(0.6);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.15);
+  }
 }
 
 /* ─────────── Feature-batch keyframes ─────────── */
 
 /* Portal-dive overlay hard-clears after animation */
 @keyframes portalDiveFade {
-  0%   { opacity: 1; }
-  85%  { opacity: 1; }
-  100% { opacity: 0; }
+  0% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 /* Aurora ribbon wave */
 @keyframes auroraWave {
-  0%   { transform: translateX(-30px) scaleX(1);   filter: hue-rotate(0deg); }
-  100% { transform: translateX(30px) scaleX(1.08); filter: hue-rotate(40deg); }
+  0% {
+    transform: translateX(-30px) scaleX(1);
+    filter: hue-rotate(0deg);
+  }
+  100% {
+    transform: translateX(30px) scaleX(1.08);
+    filter: hue-rotate(40deg);
+  }
 }
 
 /* Rave-mode conic-gradient spin */
 @keyframes raveSpin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Screen shake — driven by --shake-mag CSS var */
 @keyframes shakeKey {
-  0%,100% { transform: translate(0, 0); }
-  10%     { transform: translate(calc(var(--shake-mag,4px) * -1), 1px); }
-  20%     { transform: translate(var(--shake-mag,4px), -1px); }
-  30%     { transform: translate(calc(var(--shake-mag,4px) * -0.6), 2px); }
-  40%     { transform: translate(calc(var(--shake-mag,4px) * 0.8), -2px); }
-  50%     { transform: translate(calc(var(--shake-mag,4px) * -0.4), 1px); }
-  60%     { transform: translate(calc(var(--shake-mag,4px) * 0.6), -1px); }
-  70%,90% { transform: translate(0, 0); }
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  10% {
+    transform: translate(calc(var(--shake-mag, 4px) * -1), 1px);
+  }
+  20% {
+    transform: translate(var(--shake-mag, 4px), -1px);
+  }
+  30% {
+    transform: translate(calc(var(--shake-mag, 4px) * -0.6), 2px);
+  }
+  40% {
+    transform: translate(calc(var(--shake-mag, 4px) * 0.8), -2px);
+  }
+  50% {
+    transform: translate(calc(var(--shake-mag, 4px) * -0.4), 1px);
+  }
+  60% {
+    transform: translate(calc(var(--shake-mag, 4px) * 0.6), -1px);
+  }
+  70%,
+  90% {
+    transform: translate(0, 0);
+  }
 }
-body.shake-anim { animation: shakeKey 0.4s ease-out; }
+body.shake-anim {
+  animation: shakeKey 0.4s ease-out;
+}
 
 /* Custom cursor: hide native cursor globally when CursorSystem is active,
    but keep it usable inside text inputs so people can type. */
@@ -462,19 +699,29 @@ body.cursor-orb-active [contenteditable="true"] {
 }
 
 /* Time-of-day palette drift — expose var; nebula blob tints could reference it */
-:root { --tod-hue: 210; }
+:root {
+  --tod-hue: 210;
+}
 
 /* Singularity slow rotate for the master AI dialog */
 @keyframes singularitySpin {
-  0%   { transform: rotate(0deg)   scale(1);    }
-  50%  { transform: rotate(180deg) scale(1.08); }
-  100% { transform: rotate(360deg) scale(1);    }
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.08);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
 }
 
 /* ─────────── Extra gravity-lens vibes across the design ─────────── */
 
 /* Subtle SVG displacement warp for any element — heavier than .lens-warp */
-.gravity-warp { filter: url(#gravitational-lens); }
+.gravity-warp {
+  filter: url(#gravitational-lens);
+}
 
 /* Ring of chromatic distortion around any element (add via className).
    Uses radial-gradient + mix-blend + slow rotation to imply a lens halo. */
@@ -488,13 +735,14 @@ body.cursor-orb-active [contenteditable="true"] {
   inset: -18px;
   border-radius: inherit;
   pointer-events: none;
-  background:
-    conic-gradient(from 0deg,
-      rgba(0,242,255,0.18),
-      rgba(124,58,237,0.18),
-      rgba(236,72,153,0.16),
-      rgba(255,215,150,0.12),
-      rgba(0,242,255,0.18));
+  background: conic-gradient(
+    from 0deg,
+    rgba(0, 242, 255, 0.18),
+    rgba(124, 58, 237, 0.18),
+    rgba(236, 72, 153, 0.16),
+    rgba(255, 215, 150, 0.12),
+    rgba(0, 242, 255, 0.18)
+  );
   filter: blur(10px);
   animation: gravityHaloSpin 22s linear infinite;
   z-index: -1;
@@ -507,13 +755,17 @@ body.cursor-orb-active [contenteditable="true"] {
   border-radius: inherit;
   pointer-events: none;
   background:
-    radial-gradient(circle at 30% 30%, rgba(255,255,255,0.14) 0%, transparent 40%),
-    radial-gradient(circle at 70% 80%, rgba(124,58,237,0.16) 0%, transparent 50%);
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.14) 0%, transparent 40%),
+    radial-gradient(circle at 70% 80%, rgba(124, 58, 237, 0.16) 0%, transparent 50%);
   mix-blend-mode: screen;
 }
 @keyframes gravityHaloSpin {
-  from { transform: rotate(0deg);   }
-  to   { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Ominous mode toggle — deeper vignette + saturation shift for /multiverse */
@@ -526,20 +778,42 @@ body.ominous::before {
   inset: 0;
   z-index: 89;
   pointer-events: none;
-  background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.45) 100%);
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(0, 0, 0, 0.45) 100%);
   transition: opacity 0.6s;
 }
 
 /* Arm-tap flash on the target orb */
 @keyframes orbTapKick {
-  0%   { transform: scale(1); filter: brightness(1); }
-  40%  { transform: scale(1.14); filter: brightness(1.6); }
-  100% { transform: scale(1); filter: brightness(1); }
+  0% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  40% {
+    transform: scale(1.14);
+    filter: brightness(1.6);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
 }
-.orb-tapped { animation: orbTapKick 0.28s ease-out; }
+.orb-tapped {
+  animation: orbTapKick 0.28s ease-out;
+}
 
 /* Tutorial spotlight breathing */
 @keyframes spotlightBreath {
-  0%,100% { box-shadow: 0 0 0 4px rgba(0,242,255,0.65), 0 0 40px 10px rgba(0,242,255,0.55), 0 0 100px 30px rgba(124,58,237,0.4); }
-  50%     { box-shadow: 0 0 0 6px rgba(0,242,255,0.85), 0 0 60px 14px rgba(0,242,255,0.75), 0 0 140px 40px rgba(124,58,237,0.55); }
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 4px rgba(0, 242, 255, 0.65),
+      0 0 40px 10px rgba(0, 242, 255, 0.55),
+      0 0 100px 30px rgba(124, 58, 237, 0.4);
+  }
+  50% {
+    box-shadow:
+      0 0 0 6px rgba(0, 242, 255, 0.85),
+      0 0 60px 14px rgba(0, 242, 255, 0.75),
+      0 0 140px 40px rgba(124, 58, 237, 0.55);
+  }
 }

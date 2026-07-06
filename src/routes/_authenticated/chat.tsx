@@ -25,7 +25,10 @@ function ChatPage() {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ model, messages: next.map((m) => ({ role: m.role, content: m.text })) }),
+        body: JSON.stringify({
+          model,
+          messages: next.map((m) => ({ role: m.role, content: m.text })),
+        }),
       });
       const data = await res.json();
       setMessages([...next, { role: "assistant", text: data.text ?? "(no response)", model }]);
@@ -39,7 +42,8 @@ function ChatPage() {
   return (
     <div>
       <PageHero eyebrow="Chat & Research" title="Speak with every model.">
-        Multimodal reasoning via Lovable AI Gateway. Switch models freely — all Base44 IDs preserved.
+        Multimodal reasoning via Lovable AI Gateway. Switch models freely — all Base44 IDs
+        preserved.
       </PageHero>
 
       <div className="mb-4 flex flex-wrap gap-2">
@@ -75,7 +79,9 @@ function ChatPage() {
               }`}
             >
               {m.text}
-              {m.model && <div className="mt-1 text-[9px] font-mono text-[#00F2FF]/50">{m.model}</div>}
+              {m.model && (
+                <div className="mt-1 text-[9px] font-mono text-[#00F2FF]/50">{m.model}</div>
+              )}
             </div>
           ))}
           {loading && <div className="text-xs text-[#00F2FF]/60 font-mono">▸ generating…</div>}

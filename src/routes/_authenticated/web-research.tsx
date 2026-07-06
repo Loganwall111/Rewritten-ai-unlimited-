@@ -12,7 +12,10 @@ function WebResearch() {
       </PageHero>
       <LensWrap>
         <div className="glass-panel-strong rounded-2xl p-6">
-          <input placeholder="Search the web…" className="w-full rounded-full glass-panel bg-transparent px-5 py-3 text-sm text-[#E0F7FA] outline-none focus:border-[#00F2FF]/40" />
+          <input
+            placeholder="Search the web…"
+            className="w-full rounded-full glass-panel bg-transparent px-5 py-3 text-sm text-[#E0F7FA] outline-none focus:border-[#00F2FF]/40"
+          />
         </div>
       </LensWrap>
     </div>

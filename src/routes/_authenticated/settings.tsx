@@ -29,12 +29,16 @@ function SettingsPage() {
       </PageHero>
 
       <section className="mb-8">
-        <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.35em] text-[#00F2FF]/60">Sound</p>
+        <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.35em] text-[#00F2FF]/60">
+          Sound
+        </p>
         <LensWrap>
           <div className="glass-panel rounded-2xl p-4 flex items-center justify-between">
             <div>
               <p className="text-sm text-[#E0F7FA]">UI sound effects</p>
-              <p className="text-[10px] text-[#E0F7FA]/50">Clicks, hovers, boot beeps, whale calls.</p>
+              <p className="text-[10px] text-[#E0F7FA]/50">
+                Clicks, hovers, boot beeps, whale calls.
+              </p>
             </div>
             <button
               onClick={toggle}
@@ -47,11 +51,14 @@ function SettingsPage() {
       </section>
 
       <section className="mb-8">
-        <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.35em] text-[#00F2FF]/60">Voice</p>
+        <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.35em] text-[#00F2FF]/60">
+          Voice
+        </p>
         <LensWrap>
           <div className="glass-panel rounded-2xl p-4">
             <p className="mb-3 text-xs text-[#E0F7FA]/60">
-              Voices play through ElevenLabs when connected, with automatic Lovable AI TTS fallback. Preview each to hear.
+              Voices play through ElevenLabs when connected, with automatic Lovable AI TTS fallback.
+              Preview each to hear.
             </p>
             <VoiceSelector />
           </div>
@@ -59,14 +66,18 @@ function SettingsPage() {
       </section>
 
       <section>
-        <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.35em] text-[#00F2FF]/60">Models</p>
+        <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.35em] text-[#00F2FF]/60">
+          Models
+        </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {MODELS.map((m) => (
             <LensWrap key={m.id}>
               <div className="glass-panel rounded-2xl p-4 flex justify-between">
                 <div>
                   <p className="text-sm text-[#E0F7FA]">{m.name}</p>
-                  <p className="text-[10px] text-[#E0F7FA]/50">{m.provider} · {m.modality.join(" · ")}</p>
+                  <p className="text-[10px] text-[#E0F7FA]/50">
+                    {m.provider} · {m.modality.join(" · ")}
+                  </p>
                 </div>
                 <span className="text-[10px] font-mono text-[#00F2FF]/70">
                   {m.tier === "hosted" ? `${m.credits}cr` : "free"}

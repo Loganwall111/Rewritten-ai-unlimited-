@@ -22,7 +22,10 @@ export default function VoiceSelector() {
   const preview = (id: string) => {
     setSelectedVoiceId(id);
     setVoiceId(id);
-    speak(`Hello, I am ${VOICES.find((v) => v.id === id)?.name}. Welcome to Rewritten AI Unlimited.`, id);
+    speak(
+      `Hello, I am ${VOICES.find((v) => v.id === id)?.name}. Welcome to Rewritten AI Unlimited.`,
+      id,
+    );
   };
 
   return (
@@ -35,9 +38,18 @@ export default function VoiceSelector() {
               <button
                 onClick={() => pick(v.id)}
                 className={`px-2 py-1.5 rounded-lg text-[10px] font-medium transition-all border ${
-                  active ? "border-[#00F2FF]/50 text-[#E0F7FA]" : "border-white/5 text-[#E0F7FA]/40 hover:text-[#E0F7FA]/70 hover:border-white/15"
+                  active
+                    ? "border-[#00F2FF]/50 text-[#E0F7FA]"
+                    : "border-white/5 text-[#E0F7FA]/40 hover:text-[#E0F7FA]/70 hover:border-white/15"
                 }`}
-                style={active ? { background: "rgba(0,242,255,0.1)", boxShadow: "0 0 10px rgba(0,242,255,0.15)" } : {}}
+                style={
+                  active
+                    ? {
+                        background: "rgba(0,242,255,0.1)",
+                        boxShadow: "0 0 10px rgba(0,242,255,0.15)",
+                      }
+                    : {}
+                }
               >
                 <div>{v.name}</div>
                 <div className="text-[8px] opacity-60 mt-0.5">{v.desc}</div>

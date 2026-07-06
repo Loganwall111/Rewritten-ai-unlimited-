@@ -10,7 +10,10 @@ export const Route = createFileRoute("/_authenticated/image")({
   head: () => ({
     meta: [
       { title: "Image Studio · Rewritten AI" },
-      { name: "description", content: "Generate images with GPT Image 2, Nano Banana, Gemini 3 Pro Image, and more." },
+      {
+        name: "description",
+        content: "Generate images with GPT Image 2, Nano Banana, Gemini 3 Pro Image, and more.",
+      },
     ],
   }),
   component: ImagePage,

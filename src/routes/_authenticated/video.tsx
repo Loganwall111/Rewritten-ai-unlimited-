@@ -137,11 +137,7 @@ function VideoPage() {
                 <p className="mt-3 text-sm text-red-400 font-mono">⚠ {job.error}</p>
               )}
               {job.status === "completed" && job.output_url && (
-                <video
-                  src={job.output_url}
-                  controls
-                  className="mt-4 w-full rounded-xl"
-                />
+                <video src={job.output_url} controls className="mt-4 w-full rounded-xl" />
               )}
             </div>
           </LensWrap>

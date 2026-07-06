@@ -139,10 +139,11 @@ async function processVideoJob(jobId: string, modelId: string, prompt: string) {
       });
       const pj = (await p.json()) as { status: string; output?: string | string[] };
       if (pj.status === "succeeded") {
-        outputUrl = Array.isArray(pj.output) ? pj.output[0] : pj.output ?? null;
+        outputUrl = Array.isArray(pj.output) ? pj.output[0] : (pj.output ?? null);
         break;
       }
-      if (pj.status === "failed" || pj.status === "canceled") throw new Error(`Replicate ${pj.status}`);
+      if (pj.status === "failed" || pj.status === "canceled")
+        throw new Error(`Replicate ${pj.status}`);
     }
   } else {
     // Sora / Runway: provider-specific request. Stubbed here — implement per provider
@@ -167,7 +168,9 @@ export const getJobStatus = createServerFn({ method: "GET" })
     const { supabase, userId } = context;
     const { data: job, error } = await supabase
       .from("generation_jobs")
-      .select("id, kind, model, prompt, status, output_url, output_b64, error, credits_spent, created_at")
+      .select(
+        "id, kind, model, prompt, status, output_url, output_b64, error, credits_spent, created_at",
+      )
       .eq("id", data.id)
       .eq("user_id", userId)
       .maybeSingle();
@@ -177,7 +180,9 @@ export const getJobStatus = createServerFn({ method: "GET" })
 
 export const listJobs = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: unknown) => z.object({ kind: z.enum(["image", "video"]).optional() }).parse(input ?? {}))
+  .inputValidator((input: unknown) =>
+    z.object({ kind: z.enum(["image", "video"]).optional() }).parse(input ?? {}),
+  )
   .handler(async ({ context, data }) => {
     const { supabase, userId } = context;
     let q = supabase

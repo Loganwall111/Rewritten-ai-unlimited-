@@ -58,7 +58,9 @@ export const Route = createFileRoute("/api/images")({
         const current = bal?.balance ?? 0;
         if (current < model.credits) {
           return new Response(
-            JSON.stringify({ error: `Insufficient credits (have ${current}, need ${model.credits}).` }),
+            JSON.stringify({
+              error: `Insufficient credits (have ${current}, need ${model.credits}).`,
+            }),
             { status: 402, headers: { "content-type": "application/json" } },
           );
         }

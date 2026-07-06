@@ -38,9 +38,12 @@ export const Route = createFileRoute("/api/chat")({
           });
           if (!res.ok) {
             const err = await res.text();
-            return new Response(JSON.stringify({ text: `⚠ gateway ${res.status}: ${err.slice(0, 200)}` }), {
-              headers: { "content-type": "application/json" },
-            });
+            return new Response(
+              JSON.stringify({ text: `⚠ gateway ${res.status}: ${err.slice(0, 200)}` }),
+              {
+                headers: { "content-type": "application/json" },
+              },
+            );
           }
           const data = (await res.json()) as {
             choices?: { message?: { content?: string } }[];
@@ -50,10 +53,9 @@ export const Route = createFileRoute("/api/chat")({
             { headers: { "content-type": "application/json" } },
           );
         } catch (e) {
-          return new Response(
-            JSON.stringify({ text: `⚠ ${(e as Error).message}` }),
-            { headers: { "content-type": "application/json" } },
-          );
+          return new Response(JSON.stringify({ text: `⚠ ${(e as Error).message}` }), {
+            headers: { "content-type": "application/json" },
+          });
         }
       },
     },

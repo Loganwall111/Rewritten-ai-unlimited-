@@ -17,10 +17,15 @@ function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center">
       <div className="max-w-md text-center glass-panel-strong rounded-2xl p-10">
-        <h1 className="text-7xl font-bold text-[#00F2FF]" style={{ fontFamily: "var(--font-display)" }}>
+        <h1
+          className="text-7xl font-bold text-[#00F2FF]"
+          style={{ fontFamily: "var(--font-display)" }}
+        >
           404
         </h1>
-        <p className="mt-4 text-sm text-[#E0F7FA]/70">Lost in the lens. That portal doesn't exist.</p>
+        <p className="mt-4 text-sm text-[#E0F7FA]/70">
+          Lost in the lens. That portal doesn't exist.
+        </p>
       </div>
     </div>
   );
@@ -62,19 +67,45 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Rewritten AI Unlimited — a lensed portal to every model, every voice, every creation.",
       },
-      { property: "og:title", content: "Rewritten AI Unlimited — every model, every voice, one lens" },
+      {
+        property: "og:title",
+        content: "Rewritten AI Unlimited — every model, every voice, one lens",
+      },
       {
         property: "og:description",
         content: "A lensed portal to every model, every voice, every creation.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Rewritten AI Unlimited — every model, every voice, one lens" },
-      { name: "description", content: "Chat, code, images, video, and voice — all warped through gravitational lenses, drifting whales, and spinning black holes. Sign in to enter the portal." },
-      { property: "og:description", content: "Chat, code, images, video, and voice — all warped through gravitational lenses, drifting whales, and spinning black holes. Sign in to enter the portal." },
-      { name: "twitter:description", content: "Chat, code, images, video, and voice — all warped through gravitational lenses, drifting whales, and spinning black holes. Sign in to enter the portal." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c24e24d0-5879-4009-bba8-b9154490398a/id-preview-044d7bee--b21d21d4-4a1d-48cc-9436-9a9f0a3ffa69.lovable.app-1783289884787.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c24e24d0-5879-4009-bba8-b9154490398a/id-preview-044d7bee--b21d21d4-4a1d-48cc-9436-9a9f0a3ffa69.lovable.app-1783289884787.png" },
+      {
+        name: "twitter:title",
+        content: "Rewritten AI Unlimited — every model, every voice, one lens",
+      },
+      {
+        name: "description",
+        content:
+          "Chat, code, images, video, and voice — all warped through gravitational lenses, drifting whales, and spinning black holes. Sign in to enter the portal.",
+      },
+      {
+        property: "og:description",
+        content:
+          "Chat, code, images, video, and voice — all warped through gravitational lenses, drifting whales, and spinning black holes. Sign in to enter the portal.",
+      },
+      {
+        name: "twitter:description",
+        content:
+          "Chat, code, images, video, and voice — all warped through gravitational lenses, drifting whales, and spinning black holes. Sign in to enter the portal.",
+      },
+      {
+        property: "og:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c24e24d0-5879-4009-bba8-b9154490398a/id-preview-044d7bee--b21d21d4-4a1d-48cc-9436-9a9f0a3ffa69.lovable.app-1783289884787.png",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c24e24d0-5879-4009-bba8-b9154490398a/id-preview-044d7bee--b21d21d4-4a1d-48cc-9436-9a9f0a3ffa69.lovable.app-1783289884787.png",
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
