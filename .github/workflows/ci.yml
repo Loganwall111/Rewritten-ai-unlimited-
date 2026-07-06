@@ -1,0 +1,69 @@
+name: CI
+
+# Runs on every push and pull request to main.
+#   1. Install deps
+#   2. Type-check the whole project (tsc --noEmit)
+#   3. Lint
+#   4. Production build (verifies Vite + Nitro produce a clean bundle)
+#
+# Blocking Vercel until this passes catches errors early; Vercel's own build
+# runs the same steps but this gets you feedback in ~90s instead of ~3-4 min.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Cancel superseded runs when new commits land quickly
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Type-check (tsc --noEmit)
+        run: npx tsc --noEmit
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Prettier check
+        run: npx prettier --check "src/**/*.{ts,tsx,css}"
+        continue-on-error: true # non-blocking — formatting nits shouldn't fail CI
+
+      - name: Production build (Vercel preset)
+        env:
+          VERCEL: "1"
+          # Dummy Supabase values so build-time env checks pass without secrets
+          SUPABASE_URL: https://example.supabase.co
+          SUPABASE_PUBLISHABLE_KEY: dummy-anon-key-for-build-only
+          VITE_SUPABASE_URL: https://example.supabase.co
+          VITE_SUPABASE_PUBLISHABLE_KEY: dummy-anon-key-for-build-only
+          VITE_SUPABASE_PROJECT_ID: example
+        run: npm run build
+
+      - name: Verify build output exists
+        run: |
+          test -d .vercel/output/functions/__server.func || (echo "❌ Vercel function output missing" && exit 1)
+          test -d .vercel/output/static || (echo "❌ Static assets missing" && exit 1)
+          echo "✅ Vercel build output present"
+          echo "Build size:"
+          du -sh .vercel/output/functions/__server.func 2>/dev/null | awk '{print "  server function:", $1}'
+          du -sh .vercel/output/static 2>/dev/null | awk '{print "  static assets:  ", $1}'
