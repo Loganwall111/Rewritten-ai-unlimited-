@@ -9,7 +9,10 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WorldRouteImport } from './routes/world'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as OsRouteImport } from './routes/os'
+import { Route as AwakeningRouteImport } from './routes/awakening'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
@@ -32,9 +35,24 @@ import { Route as AuthenticatedCodeRouteImport } from './routes/_authenticated/c
 import { Route as AuthenticatedChatRouteImport } from './routes/_authenticated/chat'
 import { Route as AuthenticatedBillingRouteImport } from './routes/_authenticated/billing'
 
+const WorldRoute = WorldRouteImport.update({
+  id: '/world',
+  path: '/world',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OsRoute = OsRouteImport.update({
+  id: '/os',
+  path: '/os',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AwakeningRoute = AwakeningRouteImport.update({
+  id: '/awakening',
+  path: '/awakening',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -148,7 +166,10 @@ const AuthenticatedBillingRoute = AuthenticatedBillingRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/awakening': typeof AwakeningRoute
+  '/os': typeof OsRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/world': typeof WorldRoute
   '/billing': typeof AuthenticatedBillingRoute
   '/chat': typeof AuthenticatedChatRoute
   '/code': typeof AuthenticatedCodeRoute
@@ -171,7 +192,10 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/awakening': typeof AwakeningRoute
+  '/os': typeof OsRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/world': typeof WorldRoute
   '/billing': typeof AuthenticatedBillingRoute
   '/chat': typeof AuthenticatedChatRoute
   '/code': typeof AuthenticatedCodeRoute
@@ -196,7 +220,10 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/awakening': typeof AwakeningRoute
+  '/os': typeof OsRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/world': typeof WorldRoute
   '/_authenticated/billing': typeof AuthenticatedBillingRoute
   '/_authenticated/chat': typeof AuthenticatedChatRoute
   '/_authenticated/code': typeof AuthenticatedCodeRoute
@@ -221,7 +248,10 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/awakening'
+    | '/os'
     | '/reset-password'
+    | '/world'
     | '/billing'
     | '/chat'
     | '/code'
@@ -244,7 +274,10 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/awakening'
+    | '/os'
     | '/reset-password'
+    | '/world'
     | '/billing'
     | '/chat'
     | '/code'
@@ -268,7 +301,10 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/awakening'
+    | '/os'
     | '/reset-password'
+    | '/world'
     | '/_authenticated/billing'
     | '/_authenticated/chat'
     | '/_authenticated/code'
@@ -293,7 +329,10 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  AwakeningRoute: typeof AwakeningRoute
+  OsRoute: typeof OsRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  WorldRoute: typeof WorldRoute
   ApiChatRoute: typeof ApiChatRoute
   ApiImagesRoute: typeof ApiImagesRoute
   ApiPaddleWebhookRoute: typeof ApiPaddleWebhookRoute
@@ -301,11 +340,32 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/world': {
+      id: '/world'
+      path: '/world'
+      fullPath: '/world'
+      preLoaderRoute: typeof WorldRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reset-password': {
       id: '/reset-password'
       path: '/reset-password'
       fullPath: '/reset-password'
       preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/os': {
+      id: '/os'
+      path: '/os'
+      fullPath: '/os'
+      preLoaderRoute: typeof OsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/awakening': {
+      id: '/awakening'
+      path: '/awakening'
+      fullPath: '/awakening'
+      preLoaderRoute: typeof AwakeningRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -501,7 +561,10 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  AwakeningRoute: AwakeningRoute,
+  OsRoute: OsRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  WorldRoute: WorldRoute,
   ApiChatRoute: ApiChatRoute,
   ApiImagesRoute: ApiImagesRoute,
   ApiPaddleWebhookRoute: ApiPaddleWebhookRoute,

@@ -49,13 +49,16 @@ export default function AppShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isAuthPage = pathname === "/auth" || pathname === "/reset-password";
   const isPublicLanding = pathname === "/";
+  // Fully immersive: hides ALL app chrome (sidebars, HUD, mic, background layers)
+  const isFullyImmersive = pathname === "/world" || pathname === "/os" || pathname === "/awakening";
   const isImmersive =
     pathname === "/billing" ||
     pathname === "/mic" ||
     pathname === "/multiverse" ||
-    pathname === "/singularity"; // full-bleed pages
+    pathname === "/singularity" ||
+    isFullyImmersive; // no default padding
   const isOminous = pathname === "/multiverse" || pathname === "/singularity";
-  const isAuthed = !isAuthPage && !isPublicLanding;
+  const isAuthed = !isAuthPage && !isPublicLanding && !isFullyImmersive;
 
   const [phase, setPhase] = useState<"wormhole" | "boot" | "done">("done");
 
