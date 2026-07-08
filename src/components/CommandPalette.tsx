@@ -34,6 +34,8 @@ import {
   LogOut,
   Aperture,
   Brain,
+  Infinity as InfinityIcon,
+  Clapperboard,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { playClick } from "@/lib/sound";
@@ -77,6 +79,22 @@ export default function CommandPalette() {
         icon: Brain,
         keywords: ["fused", "master", "ai"],
         run: go("/singularity"),
+      },
+      {
+        id: "infinity",
+        label: "World Infinity · Forge & explore worlds",
+        hint: "G I",
+        icon: InfinityIcon,
+        keywords: ["worlds", "procedural", "infinity", "voxel", "infinity"],
+        run: go("/infinity"),
+      },
+      {
+        id: "scenes",
+        label: "Cinematic Scenes · Babylon 3D worlds",
+        hint: "G N",
+        icon: Clapperboard,
+        keywords: ["babylon", "3d", "scenes", "atrium", "ocean", "cathedral"],
+        run: go("/scenes"),
       },
       { id: "chat", label: "Chat & Research", hint: "G C", icon: MessageSquare, run: go("/chat") },
       {
@@ -172,6 +190,8 @@ export default function CommandPalette() {
           v: "/mic",
           u: "/multiverse",
           o: "/singularity",
+          i: "/infinity",
+          n: "/scenes",
         };
         const dest = map[e.key.toLowerCase()];
         if (dest) {
