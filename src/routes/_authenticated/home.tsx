@@ -11,6 +11,9 @@ import {
   Sparkles,
   CreditCard,
   Aperture,
+  Clapperboard,
+  Infinity as InfinityIcon,
+  Rocket,
 } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import LiquidOrb from "@/components/LiquidOrb";
@@ -41,6 +44,9 @@ const TILES = [
   { to: "/web-research", icon: Globe, name: "Web Research", hue: 180 },
   { to: "/game-builder", icon: Gamepad2, name: "Game Builder", hue: 15 },
   { to: "/prompts", icon: Sparkles, name: "Prompt Vault", hue: 55 },
+  { to: "/scenes", icon: Clapperboard, name: "Cinematic Scenes", hue: 280 },
+  { to: "/infinity", icon: InfinityIcon, name: "World Infinity", hue: 175 },
+  { to: "/world", icon: Rocket, name: "Rewritten World", hue: 145 },
   { to: "/billing", icon: CreditCard, name: "Billing", hue: 300 },
 ] as const;
 

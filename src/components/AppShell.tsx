@@ -25,6 +25,8 @@ import AmbientToggle from "./AmbientToggle";
 import { playBoot, sfxBootChord } from "@/lib/sound";
 import { readDragOrbit } from "@/lib/useDragOrbit";
 import { warmUpBrowserVoices } from "@/lib/browserVoice";
+import { Companion } from "./babylon-chrome/Companion";
+import { CursorOrb } from "./babylon-chrome/CursorOrb";
 
 const INTRO_KEY = "rewritten_intro_played";
 
@@ -145,6 +147,10 @@ export default function AppShell({ children }: { children: ReactNode }) {
       {isAuthed && !isImmersive && <PageChrome />}
       {isAuthed && <CreditTracker />}
       {isAuthed && <FloatingMic />}
+
+      {/* Global 3D chrome (Babylon overhaul) */}
+      {isAuthed && !isImmersive && <Companion />}
+      {isAuthed && <CursorOrb />}
 
       {/* Drag-hint */}
       {isAuthed && <DragHint />}

@@ -1497,7 +1497,8 @@ function WorldPage() {
                         Available Worlds
                       </h2>
                       <p className="text-sm text-[#E0F7FA]/70 mb-4">
-                        Three worlds are online. Six more are in construction.
+                        Three worlds are online, plus the open{" "}
+                        <span className="text-[#00F2FF]">World Infinity</span> forge.
                       </p>
                       <div className="text-left space-y-2">
                         {PORTALS.map((p) => (
@@ -1522,25 +1523,30 @@ function WorldPage() {
                         className="text-2xl mb-2"
                         style={{ fontFamily: "var(--font-display), sans-serif" }}
                       >
-                        Create a New World
+                        Forge a New World
                       </h2>
-                      <p className="text-sm text-[#E0F7FA]/70 mb-4">
-                        This portal isn't open yet. Return with the Rewritten AI Unlimited toolset
-                        to spin one up.
+                      <p className="text-sm text-[#E0F7FA]/70 mb-2">
+                        Step into <span className="text-[#00F2FF]">World Infinity</span> — the
+                        Genesis engine spins up a brand-new, seed-reproducible world from any of 12
+                        archetypes. Pick a biome, set the hour, and walk it in first person.
                       </p>
+                      <ul className="text-left text-[11px] text-[#E0F7FA]/55 space-y-1 mb-4">
+                        <li>· 12 archetypes · deterministic terrain + props + weather</li>
+                        <li>· Forge, explore, rate, re-roll, and share by seed</li>
+                        <li>· Your library persists and syncs across tabs</li>
+                      </ul>
                       <button
                         onClick={() => {
                           setGalleryPanel(null);
-                          navigate({ to: "/home" });
+                          navigate({ to: "/infinity" });
                         }}
-                        className="mt-2 rounded-full px-6 py-2.5 text-xs uppercase tracking-widest text-[#00F2FF]"
+                        className="mt-2 rounded-full px-6 py-2.5 text-xs uppercase tracking-widest text-[#001417]"
                         style={{
-                          background:
-                            "radial-gradient(ellipse at center, rgba(0,242,255,0.2), rgba(11,16,26,0.7))",
-                          border: "1px solid rgba(0,242,255,0.6)",
+                          background: "linear-gradient(135deg, #7fffe0, #00F2FF)",
+                          boxShadow: "0 10px 40px -10px rgba(0,242,255,0.7)",
                         }}
                       >
-                        Open AI Unlimited
+                        Open World Infinity →
                       </button>
                     </>
                   )}

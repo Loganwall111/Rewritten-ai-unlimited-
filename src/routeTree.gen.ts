@@ -26,6 +26,7 @@ import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedPromptsRouteImport } from './routes/_authenticated/prompts'
 import { Route as AuthenticatedMultiverseRouteImport } from './routes/_authenticated/multiverse'
 import { Route as AuthenticatedMicRouteImport } from './routes/_authenticated/mic'
+import { Route as AuthenticatedInfinityRouteImport } from './routes/_authenticated/infinity'
 import { Route as AuthenticatedImageRouteImport } from './routes/_authenticated/image'
 import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
 import { Route as AuthenticatedHistoryRouteImport } from './routes/_authenticated/history'
@@ -34,6 +35,8 @@ import { Route as AuthenticatedDocumentsRouteImport } from './routes/_authentica
 import { Route as AuthenticatedCodeRouteImport } from './routes/_authenticated/code'
 import { Route as AuthenticatedChatRouteImport } from './routes/_authenticated/chat'
 import { Route as AuthenticatedBillingRouteImport } from './routes/_authenticated/billing'
+import { Route as AuthenticatedScenesIndexRouteImport } from './routes/_authenticated/scenes/index'
+import { Route as AuthenticatedScenesSlugRouteImport } from './routes/_authenticated/scenes/$slug'
 
 const WorldRoute = WorldRouteImport.update({
   id: '/world',
@@ -121,6 +124,11 @@ const AuthenticatedMicRoute = AuthenticatedMicRouteImport.update({
   path: '/mic',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedInfinityRoute = AuthenticatedInfinityRouteImport.update({
+  id: '/infinity',
+  path: '/infinity',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedImageRoute = AuthenticatedImageRouteImport.update({
   id: '/image',
   path: '/image',
@@ -162,6 +170,17 @@ const AuthenticatedBillingRoute = AuthenticatedBillingRouteImport.update({
   path: '/billing',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedScenesIndexRoute =
+  AuthenticatedScenesIndexRouteImport.update({
+    id: '/scenes/',
+    path: '/scenes/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedScenesSlugRoute = AuthenticatedScenesSlugRouteImport.update({
+  id: '/scenes/$slug',
+  path: '/scenes/$slug',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -178,6 +197,7 @@ export interface FileRoutesByFullPath {
   '/history': typeof AuthenticatedHistoryRoute
   '/home': typeof AuthenticatedHomeRoute
   '/image': typeof AuthenticatedImageRoute
+  '/infinity': typeof AuthenticatedInfinityRoute
   '/mic': typeof AuthenticatedMicRoute
   '/multiverse': typeof AuthenticatedMultiverseRoute
   '/prompts': typeof AuthenticatedPromptsRoute
@@ -188,6 +208,8 @@ export interface FileRoutesByFullPath {
   '/api/chat': typeof ApiChatRoute
   '/api/images': typeof ApiImagesRoute
   '/api/paddle-webhook': typeof ApiPaddleWebhookRoute
+  '/scenes/$slug': typeof AuthenticatedScenesSlugRoute
+  '/scenes/': typeof AuthenticatedScenesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -204,6 +226,7 @@ export interface FileRoutesByTo {
   '/history': typeof AuthenticatedHistoryRoute
   '/home': typeof AuthenticatedHomeRoute
   '/image': typeof AuthenticatedImageRoute
+  '/infinity': typeof AuthenticatedInfinityRoute
   '/mic': typeof AuthenticatedMicRoute
   '/multiverse': typeof AuthenticatedMultiverseRoute
   '/prompts': typeof AuthenticatedPromptsRoute
@@ -214,6 +237,8 @@ export interface FileRoutesByTo {
   '/api/chat': typeof ApiChatRoute
   '/api/images': typeof ApiImagesRoute
   '/api/paddle-webhook': typeof ApiPaddleWebhookRoute
+  '/scenes/$slug': typeof AuthenticatedScenesSlugRoute
+  '/scenes': typeof AuthenticatedScenesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -232,6 +257,7 @@ export interface FileRoutesById {
   '/_authenticated/history': typeof AuthenticatedHistoryRoute
   '/_authenticated/home': typeof AuthenticatedHomeRoute
   '/_authenticated/image': typeof AuthenticatedImageRoute
+  '/_authenticated/infinity': typeof AuthenticatedInfinityRoute
   '/_authenticated/mic': typeof AuthenticatedMicRoute
   '/_authenticated/multiverse': typeof AuthenticatedMultiverseRoute
   '/_authenticated/prompts': typeof AuthenticatedPromptsRoute
@@ -242,6 +268,8 @@ export interface FileRoutesById {
   '/api/chat': typeof ApiChatRoute
   '/api/images': typeof ApiImagesRoute
   '/api/paddle-webhook': typeof ApiPaddleWebhookRoute
+  '/_authenticated/scenes/$slug': typeof AuthenticatedScenesSlugRoute
+  '/_authenticated/scenes/': typeof AuthenticatedScenesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -260,6 +288,7 @@ export interface FileRouteTypes {
     | '/history'
     | '/home'
     | '/image'
+    | '/infinity'
     | '/mic'
     | '/multiverse'
     | '/prompts'
@@ -270,6 +299,8 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/api/images'
     | '/api/paddle-webhook'
+    | '/scenes/$slug'
+    | '/scenes/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -286,6 +317,7 @@ export interface FileRouteTypes {
     | '/history'
     | '/home'
     | '/image'
+    | '/infinity'
     | '/mic'
     | '/multiverse'
     | '/prompts'
@@ -296,6 +328,8 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/api/images'
     | '/api/paddle-webhook'
+    | '/scenes/$slug'
+    | '/scenes'
   id:
     | '__root__'
     | '/'
@@ -313,6 +347,7 @@ export interface FileRouteTypes {
     | '/_authenticated/history'
     | '/_authenticated/home'
     | '/_authenticated/image'
+    | '/_authenticated/infinity'
     | '/_authenticated/mic'
     | '/_authenticated/multiverse'
     | '/_authenticated/prompts'
@@ -323,6 +358,8 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/api/images'
     | '/api/paddle-webhook'
+    | '/_authenticated/scenes/$slug'
+    | '/_authenticated/scenes/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -459,6 +496,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMicRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/infinity': {
+      id: '/_authenticated/infinity'
+      path: '/infinity'
+      fullPath: '/infinity'
+      preLoaderRoute: typeof AuthenticatedInfinityRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/image': {
       id: '/_authenticated/image'
       path: '/image'
@@ -515,6 +559,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBillingRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/scenes/': {
+      id: '/_authenticated/scenes/'
+      path: '/scenes'
+      fullPath: '/scenes/'
+      preLoaderRoute: typeof AuthenticatedScenesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/scenes/$slug': {
+      id: '/_authenticated/scenes/$slug'
+      path: '/scenes/$slug'
+      fullPath: '/scenes/$slug'
+      preLoaderRoute: typeof AuthenticatedScenesSlugRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -527,6 +585,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedHistoryRoute: typeof AuthenticatedHistoryRoute
   AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
   AuthenticatedImageRoute: typeof AuthenticatedImageRoute
+  AuthenticatedInfinityRoute: typeof AuthenticatedInfinityRoute
   AuthenticatedMicRoute: typeof AuthenticatedMicRoute
   AuthenticatedMultiverseRoute: typeof AuthenticatedMultiverseRoute
   AuthenticatedPromptsRoute: typeof AuthenticatedPromptsRoute
@@ -534,6 +593,8 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSingularityRoute: typeof AuthenticatedSingularityRoute
   AuthenticatedVideoRoute: typeof AuthenticatedVideoRoute
   AuthenticatedWebResearchRoute: typeof AuthenticatedWebResearchRoute
+  AuthenticatedScenesSlugRoute: typeof AuthenticatedScenesSlugRoute
+  AuthenticatedScenesIndexRoute: typeof AuthenticatedScenesIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -545,6 +606,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedHistoryRoute: AuthenticatedHistoryRoute,
   AuthenticatedHomeRoute: AuthenticatedHomeRoute,
   AuthenticatedImageRoute: AuthenticatedImageRoute,
+  AuthenticatedInfinityRoute: AuthenticatedInfinityRoute,
   AuthenticatedMicRoute: AuthenticatedMicRoute,
   AuthenticatedMultiverseRoute: AuthenticatedMultiverseRoute,
   AuthenticatedPromptsRoute: AuthenticatedPromptsRoute,
@@ -552,6 +614,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSingularityRoute: AuthenticatedSingularityRoute,
   AuthenticatedVideoRoute: AuthenticatedVideoRoute,
   AuthenticatedWebResearchRoute: AuthenticatedWebResearchRoute,
+  AuthenticatedScenesSlugRoute: AuthenticatedScenesSlugRoute,
+  AuthenticatedScenesIndexRoute: AuthenticatedScenesIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

@@ -23,6 +23,8 @@ import {
   Aperture,
   Brain,
   Rocket,
+  Infinity as InfinityIcon,
+  Clapperboard,
 } from "lucide-react";
 import LiquidOrb from "./LiquidOrb";
 import { playClick, sfxHover, sfxPortalBoom } from "@/lib/sound";
@@ -48,6 +50,8 @@ const LEFT: Item[] = [
 const RIGHT: Item[] = [
   { to: "/mic", icon: Mic, label: "Voice", hue: 195 },
   { to: "/world", icon: Rocket, label: "World", hue: 145 },
+  { to: "/infinity", icon: InfinityIcon, label: "Infinity", hue: 175 },
+  { to: "/scenes", icon: Clapperboard, label: "Scenes", hue: 280 },
   { to: "/multiverse", icon: Aperture, label: "Multi", hue: 275 },
   { to: "/singularity", icon: Brain, label: "One", hue: 265 },
   { to: "/web-research", icon: Globe, label: "Web", hue: 180 },
