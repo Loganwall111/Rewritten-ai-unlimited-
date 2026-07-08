@@ -92,11 +92,19 @@ export function SceneViewer({ entry }: { entry: SceneEntry }) {
         >
           <div
             className="rounded-full px-5 py-2 flex items-center gap-4 text-[10px] font-mono uppercase tracking-[0.2em] text-[#E0F7FA]/65"
-            style={{ background: "rgba(11,16,26,0.6)", backdropFilter: "blur(16px)", border: "1px solid rgba(140,180,255,0.15)" }}
+            style={{
+              background: "rgba(11,16,26,0.6)",
+              backdropFilter: "blur(16px)",
+              border: "1px solid rgba(140,180,255,0.15)",
+            }}
           >
-            <span className="flex items-center gap-1.5"><Eye className="w-3 h-3" /> Drag to orbit</span>
+            <span className="flex items-center gap-1.5">
+              <Eye className="w-3 h-3" /> Drag to orbit
+            </span>
             <span className="opacity-40">·</span>
-            <span className="flex items-center gap-1.5"><RotateCcw className="w-3 h-3" /> Scroll to zoom</span>
+            <span className="flex items-center gap-1.5">
+              <RotateCcw className="w-3 h-3" /> Scroll to zoom
+            </span>
             {webgpu && (
               <>
                 <span className="opacity-40">·</span>

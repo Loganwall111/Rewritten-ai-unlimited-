@@ -28,7 +28,11 @@ export function buildQuantumOcean({ scene }: BabylonSceneApi) {
   scene.clearColor = new Color4(0.0, 0.04, 0.1, 1);
 
   // --- Seabed ---
-  const seabed = MeshBuilder.CreateGround("seabed", { width: 220, height: 220, subdivisions: 40 }, scene);
+  const seabed = MeshBuilder.CreateGround(
+    "seabed",
+    { width: 220, height: 220, subdivisions: 40 },
+    scene,
+  );
   seabed.position.y = -22;
   seabed.material = pbr(scene, {
     baseColor: hsl(190, 0.4, 0.08),
@@ -101,7 +105,11 @@ export function buildQuantumOcean({ scene }: BabylonSceneApi) {
   const jellyfish: Array<{ root: Mesh; dome: Mesh; phase: number }> = [];
   for (let i = 0; i < 8; i++) {
     const root = new Mesh(`jelly${i}`, scene);
-    const dome = MeshBuilder.CreateSphere(`jdome${i}`, { diameter: 2.4, segments: 16, slice: 0.55 }, scene);
+    const dome = MeshBuilder.CreateSphere(
+      `jdome${i}`,
+      { diameter: 2.4, segments: 16, slice: 0.55 },
+      scene,
+    );
     dome.material = glow(scene, hsl(280 + i * 12, 1, 0.6), 1.6);
     dome.parent = root;
     // Tentacles (thin dangling cylinders).

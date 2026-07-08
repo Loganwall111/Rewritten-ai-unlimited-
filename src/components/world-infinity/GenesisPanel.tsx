@@ -9,10 +9,7 @@
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Dices, Sparkles, Wand2, X, ArrowRight } from "lucide-react";
-import {
-  ARCHETYPE_LIST,
-  TIME_OF_DAY,
-} from "@/lib/worldInfinity/biomes";
+import { ARCHETYPE_LIST, TIME_OF_DAY } from "@/lib/worldInfinity/biomes";
 import type { ArchetypeId, CreateWorldInput, TimeOfDay } from "@/lib/worldInfinity/types";
 import { randomSeedString, Rng } from "@/lib/worldInfinity/rng";
 import { generateBlurb, generateWorldName } from "@/lib/worldInfinity/names";
@@ -87,7 +84,8 @@ export function GenesisPanel({
         }}
       >
         {/* Header */}
-        <div className="sticky top-0 z-10 flex items-center justify-between px-7 py-5"
+        <div
+          className="sticky top-0 z-10 flex items-center justify-between px-7 py-5"
           style={{
             background: "linear-gradient(180deg, rgba(11,16,26,0.98), rgba(11,16,26,0.85))",
             borderBottom: "1px solid rgba(140,180,255,0.12)",
@@ -108,7 +106,10 @@ export function GenesisPanel({
               onClick={surprise}
               onMouseEnter={sfxHover}
               className="inline-flex items-center gap-2 rounded-full px-3.5 py-2 text-[10px] font-mono uppercase tracking-[0.2em] text-yellow-200 transition hover:scale-105"
-              style={{ background: "rgba(255,210,80,0.12)", border: "1px solid rgba(255,210,80,0.4)" }}
+              style={{
+                background: "rgba(255,210,80,0.12)",
+                border: "1px solid rgba(255,210,80,0.4)",
+              }}
             >
               <Dices className="w-3.5 h-3.5" /> Surprise me
             </button>
@@ -159,7 +160,9 @@ export function GenesisPanel({
                     <p className="text-[12px] font-medium" style={{ color: "#E8F4FF" }}>
                       {a.label}
                     </p>
-                    <p className="text-[9.5px] text-[#E0F7FA]/45 mt-0.5 leading-snug">{a.tagline}</p>
+                    <p className="text-[9.5px] text-[#E0F7FA]/45 mt-0.5 leading-snug">
+                      {a.tagline}
+                    </p>
                   </button>
                 );
               })}
@@ -238,7 +241,10 @@ export function GenesisPanel({
                     onClick={rerollSeed}
                     title="Re-roll seed"
                     className="px-3 rounded-xl text-[#00F2FF] transition hover:scale-105"
-                    style={{ background: "rgba(0,242,255,0.1)", border: "1px solid rgba(0,242,255,0.3)" }}
+                    style={{
+                      background: "rgba(0,242,255,0.1)",
+                      border: "1px solid rgba(0,242,255,0.3)",
+                    }}
                   >
                     <Dices className="w-4 h-4" />
                   </button>
@@ -293,7 +299,8 @@ export function GenesisPanel({
         </div>
 
         {/* Footer */}
-        <div className="sticky bottom-0 flex items-center justify-between px-7 py-4"
+        <div
+          className="sticky bottom-0 flex items-center justify-between px-7 py-4"
           style={{
             background: "linear-gradient(0deg, rgba(11,16,26,0.98), rgba(11,16,26,0.8))",
             borderTop: "1px solid rgba(140,180,255,0.12)",

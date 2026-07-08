@@ -40,7 +40,11 @@ export function buildPlanets({ scene }: BabylonSceneApi) {
   const orbits: Array<{ pivot: Mesh; planet: Mesh; speed: number; moon?: Mesh }> = [];
   for (const def of PLANETS) {
     const pivot = new Mesh("pivot", scene);
-    const planet = MeshBuilder.CreateSphere("planet", { diameter: def.size * 2, segments: 24 }, scene);
+    const planet = MeshBuilder.CreateSphere(
+      "planet",
+      { diameter: def.size * 2, segments: 24 },
+      scene,
+    );
     planet.material = pbr(scene, {
       baseColor: hsl(def.hue, 0.6, 0.5),
       metallic: def.metallic,
@@ -53,7 +57,11 @@ export function buildPlanets({ scene }: BabylonSceneApi) {
     pivot.rotation.y = Math.random() * Math.PI * 2;
 
     // Atmospheric halo.
-    const halo = MeshBuilder.CreateSphere("halo", { diameter: def.size * 2.5, segments: 16 }, scene);
+    const halo = MeshBuilder.CreateSphere(
+      "halo",
+      { diameter: def.size * 2.5, segments: 16 },
+      scene,
+    );
     halo.position.x = def.dist;
     halo.parent = pivot;
     const haloMat = glow(scene, hsl(def.hue, 1, 0.6), 0.3);
@@ -61,7 +69,11 @@ export function buildPlanets({ scene }: BabylonSceneApi) {
     halo.material = haloMat;
 
     if (def.ring) {
-      const ring = MeshBuilder.CreateTorus("pring", { diameter: def.size * 6, thickness: 0.25, tessellation: 96 }, scene);
+      const ring = MeshBuilder.CreateTorus(
+        "pring",
+        { diameter: def.size * 6, thickness: 0.25, tessellation: 96 },
+        scene,
+      );
       ring.position.x = def.dist;
       ring.parent = pivot;
       ring.rotation.x = Math.PI / 2.3;
@@ -75,7 +87,11 @@ export function buildPlanets({ scene }: BabylonSceneApi) {
     let moon: Mesh | undefined;
     if (def.moon) {
       moon = MeshBuilder.CreateSphere("moon", { diameter: 0.4, segments: 12 }, scene);
-      moon.material = pbr(scene, { baseColor: new Color3(0.7, 0.7, 0.72), metallic: 0.1, roughness: 0.9 });
+      moon.material = pbr(scene, {
+        baseColor: new Color3(0.7, 0.7, 0.72),
+        metallic: 0.1,
+        roughness: 0.9,
+      });
       moon.parent = planet;
       moon.position.x = def.size * 2.5;
     }

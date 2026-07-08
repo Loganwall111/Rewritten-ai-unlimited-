@@ -131,13 +131,18 @@ export function BabylonSceneHost({
     const init = async () => {
       // Babylon's Engine constructor auto-picks WebGL2. We hard-fail loudly only
       // if even that's unavailable; WebGL2 is universal on modern browsers.
-      engine = new Engine(canvas, true, {
-        preserveDrawingBuffer: true, // enables screenshots
-        stencil: true,
-        antialias: true,
-        powerPreference: "high-performance",
-        disableWebGL2Support: false,
-      }, true);
+      engine = new Engine(
+        canvas,
+        true,
+        {
+          preserveDrawingBuffer: true, // enables screenshots
+          stencil: true,
+          antialias: true,
+          powerPreference: "high-performance",
+          disableWebGL2Support: false,
+        },
+        true,
+      );
       engine.setHardwareScalingLevel(1 / Math.min(window.devicePixelRatio || 1, 2));
 
       scene = new Scene(engine);
@@ -247,8 +252,7 @@ export function BabylonSceneHost({
           pipe.imageProcessing.contrast = postProcess.contrast ?? 1.25;
           pipe.imageProcessing.vignetteEnabled = postProcess.vignette ?? true;
           if (postProcess.vignette) {
-            pipe.imageProcessing.vignetteWeight =
-              postProcess.vignetteWeight ?? 1.6;
+            pipe.imageProcessing.vignetteWeight = postProcess.vignetteWeight ?? 1.6;
             pipe.imageProcessing.vignetteColor = new Color4(0, 0, 0.02, 1);
           }
         }
@@ -313,7 +317,13 @@ export function BabylonSceneHost({
     <div className={className} style={{ position: "relative", width: "100%", height: "100%" }}>
       <canvas
         ref={canvasRef}
-        style={{ width: "100%", height: "100%", display: "block", touchAction: "none", outline: "none" }}
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "block",
+          touchAction: "none",
+          outline: "none",
+        }}
       />
       {engineReady && children}
     </div>

@@ -88,7 +88,9 @@ export class Rng {
 }
 
 /** Generate a short, human-friendly random seed string (e.g. "k7f3-q9a2"). */
-export function randomSeedString(rng: Rng = new Rng(Math.floor(Math.random() * 0xffffffff))): string {
+export function randomSeedString(
+  rng: Rng = new Rng(Math.floor(Math.random() * 0xffffffff)),
+): string {
   const alphabet = "abcdefghjkmnpqrstuvwxyz23456789"; // no ambiguous chars
   const part = () =>
     Array.from({ length: 4 }, () => alphabet[rng.int(0, alphabet.length - 1)]).join("");

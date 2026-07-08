@@ -6,7 +6,16 @@
  * cycle that shifts the sky + window emissive.
  */
 
-import { Color3, Color4, Vector3, Matrix, Quaternion, MeshBuilder, Mesh, StandardMaterial } from "@babylonjs/core";
+import {
+  Color3,
+  Color4,
+  Vector3,
+  Matrix,
+  Quaternion,
+  MeshBuilder,
+  Mesh,
+  StandardMaterial,
+} from "@babylonjs/core";
 import type { BabylonSceneApi } from "../BabylonSceneHost";
 import { glow, pbr, hsl, marbleFloor, nebulaParticles } from "../graphics";
 
@@ -70,7 +79,9 @@ export function buildLifeSim({ scene }: BabylonSceneApi) {
     const dt = scene.getEngine().getDeltaTime() / 1000;
     t += dt;
     // Day/night window flicker.
-    (windowMat as StandardMaterial).emissiveColor = hsl(45, 1, 0.6 + Math.sin(t * 0.5) * 0.2).scale(1.5);
+    (windowMat as StandardMaterial).emissiveColor = hsl(45, 1, 0.6 + Math.sin(t * 0.5) * 0.2).scale(
+      1.5,
+    );
   });
 }
 

@@ -45,8 +45,7 @@ export const Route = createFileRoute("/_authenticated/infinity")({
       { title: "World Infinity · Rewritten AI" },
       {
         name: "description",
-        content:
-          "Forge, explore, and curate an infinite library of procedurally-generated worlds.",
+        content: "Forge, explore, and curate an infinite library of procedurally-generated worlds.",
       },
     ],
   }),
@@ -192,7 +191,10 @@ function WorldInfinityPage() {
                 }}
               >
                 Infinity
-                <InfinityIcon className="w-7 h-7 text-[#00F2FF]" style={{ filter: "drop-shadow(0 0 10px rgba(0,242,255,0.7))" }} />
+                <InfinityIcon
+                  className="w-7 h-7 text-[#00F2FF]"
+                  style={{ filter: "drop-shadow(0 0 10px rgba(0,242,255,0.7))" }}
+                />
               </h1>
             </div>
           </div>
@@ -204,7 +206,10 @@ function WorldInfinityPage() {
               onMouseEnter={sfxHover}
               title="Export library"
               className="w-9 h-9 rounded-full flex items-center justify-center text-[#E0F7FA]/60 hover:text-[#00F2FF] transition"
-              style={{ background: "rgba(15,25,45,0.5)", border: "1px solid rgba(140,180,255,0.15)" }}
+              style={{
+                background: "rgba(15,25,45,0.5)",
+                border: "1px solid rgba(140,180,255,0.15)",
+              }}
             >
               <Download className="w-4 h-4" />
             </button>
@@ -214,7 +219,10 @@ function WorldInfinityPage() {
               onMouseEnter={sfxHover}
               title="Import library"
               className="w-9 h-9 rounded-full flex items-center justify-center text-[#E0F7FA]/60 hover:text-[#00F2FF] transition"
-              style={{ background: "rgba(15,25,45,0.5)", border: "1px solid rgba(140,180,255,0.15)" }}
+              style={{
+                background: "rgba(15,25,45,0.5)",
+                border: "1px solid rgba(140,180,255,0.15)",
+              }}
             >
               <Upload className="w-4 h-4" />
             </button>
@@ -252,7 +260,10 @@ function WorldInfinityPage() {
           </p>
           <div className="flex items-center gap-2 ml-auto">
             <Chip icon={<Globe2 className="w-3.5 h-3.5" />} label={`${lib.count} worlds`} />
-            <Chip icon={<Sparkles className="w-3.5 h-3.5" />} label={`${ARCHETYPE_LIST.length} archetypes`} />
+            <Chip
+              icon={<Sparkles className="w-3.5 h-3.5" />}
+              label={`${ARCHETYPE_LIST.length} archetypes`}
+            />
           </div>
         </div>
       </header>
@@ -286,11 +297,21 @@ function WorldInfinityPage() {
               className="bg-transparent outline-none text-xs font-mono uppercase tracking-wider text-[#E0F7FA]/80 cursor-pointer"
               style={{ appearance: "none" }}
             >
-              <option value="recent" className="bg-[#0b101a]">Recent</option>
-              <option value="created" className="bg-[#0b101a]">Newest</option>
-              <option value="name" className="bg-[#0b101a]">A–Z</option>
-              <option value="rating" className="bg-[#0b101a]">Top rated</option>
-              <option value="visits" className="bg-[#0b101a]">Most visited</option>
+              <option value="recent" className="bg-[#0b101a]">
+                Recent
+              </option>
+              <option value="created" className="bg-[#0b101a]">
+                Newest
+              </option>
+              <option value="name" className="bg-[#0b101a]">
+                A–Z
+              </option>
+              <option value="rating" className="bg-[#0b101a]">
+                Top rated
+              </option>
+              <option value="visits" className="bg-[#0b101a]">
+                Most visited
+              </option>
             </select>
           </div>
         </div>
@@ -315,7 +336,10 @@ function WorldInfinityPage() {
         {filtered.length === 0 ? (
           <EmptyState onCreate={() => setGenesisOpen(true)} hasWorlds={lib.count > 0} />
         ) : (
-          <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          <motion.div
+            layout
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+          >
             <AnimatePresence mode="popLayout">
               {filtered.map((w, i) => (
                 <WorldCard
@@ -350,7 +374,8 @@ function WorldInfinityPage() {
               <div
                 className="w-14 h-14 rounded-full flex items-center justify-center"
                 style={{
-                  background: "radial-gradient(circle at 30% 30%, rgba(127,255,224,0.9), rgba(0,242,255,0.3))",
+                  background:
+                    "radial-gradient(circle at 30% 30%, rgba(127,255,224,0.9), rgba(0,242,255,0.3))",
                   boxShadow: "0 0 30px rgba(0,242,255,0.5)",
                 }}
               >
@@ -372,7 +397,7 @@ function WorldInfinityPage() {
 
       {/* Details drawer */}
       <WorldDrawer
-        world={drawerWorld ? lib.get(drawerWorld.id) ?? drawerWorld : null}
+        world={drawerWorld ? (lib.get(drawerWorld.id) ?? drawerWorld) : null}
         onClose={() => setDrawerWorld(null)}
         onEnter={enter}
         onRate={lib.rate}
@@ -439,7 +464,11 @@ function FilterChip({
             ? `linear-gradient(135deg, hsl(${hue},90%,80%), hsl(${hue},80%,60%))`
             : "linear-gradient(135deg, #7fffe0, #00F2FF)"
           : "rgba(11,16,26,0.5)",
-        border: active ? "none" : hue ? `1px solid hsla(${hue},70%,50%,0.3)` : "1px solid rgba(140,180,255,0.15)",
+        border: active
+          ? "none"
+          : hue
+            ? `1px solid hsla(${hue},70%,50%,0.3)`
+            : "1px solid rgba(140,180,255,0.15)",
       }}
     >
       {label}
@@ -453,13 +482,17 @@ function EmptyState({ onCreate, hasWorlds }: { onCreate: () => void; hasWorlds: 
       <div
         className="mx-auto w-20 h-20 rounded-full flex items-center justify-center mb-6"
         style={{
-          background: "radial-gradient(circle at 30% 30%, rgba(127,255,224,0.8), rgba(0,242,255,0.2))",
+          background:
+            "radial-gradient(circle at 30% 30%, rgba(127,255,224,0.8), rgba(0,242,255,0.2))",
           boxShadow: "0 0 50px rgba(0,242,255,0.4)",
         }}
       >
         <Star className="w-8 h-8 text-[#001417]" />
       </div>
-      <h2 className="text-xl" style={{ fontFamily: "var(--font-display), sans-serif", color: "#E0F7FA" }}>
+      <h2
+        className="text-xl"
+        style={{ fontFamily: "var(--font-display), sans-serif", color: "#E0F7FA" }}
+      >
         {hasWorlds ? "No worlds match your search" : "Your library is empty"}
       </h2>
       <p className="mt-2 text-sm text-[#E0F7FA]/50 max-w-sm mx-auto">
@@ -473,7 +506,10 @@ function EmptyState({ onCreate, hasWorlds }: { onCreate: () => void; hasWorlds: 
           onClick={onCreate}
           onMouseEnter={sfxHover}
           className="mt-6 inline-flex items-center gap-2 rounded-full px-6 py-3 text-[11px] font-mono uppercase tracking-[0.25em] text-[#001417] transition hover:scale-105"
-          style={{ background: "linear-gradient(135deg, #7fffe0, #00F2FF)", boxShadow: "0 10px 40px -10px rgba(0,242,255,0.7)" }}
+          style={{
+            background: "linear-gradient(135deg, #7fffe0, #00F2FF)",
+            boxShadow: "0 10px 40px -10px rgba(0,242,255,0.7)",
+          }}
         >
           <Wand2 className="w-4 h-4" /> Forge your first world
         </button>

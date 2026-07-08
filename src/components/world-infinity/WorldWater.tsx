@@ -13,10 +13,7 @@ export function WorldWater({ archetype }: { archetype: ArchetypeDef }) {
   const wl = archetype.terrain.waterLevel;
   const isLava = archetype.id === "volcanic";
 
-  const uniforms = useMemo(
-    () => ({ uTime: { value: 0 } }),
-    [],
-  );
+  const uniforms = useMemo(() => ({ uTime: { value: 0 } }), []);
 
   useFrame((_, dt) => {
     uniforms.uTime.value += dt;

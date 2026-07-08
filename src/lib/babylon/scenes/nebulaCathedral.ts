@@ -6,14 +6,7 @@
  * drifting through the nave. Pure spectacle.
  */
 
-import {
-  Color3,
-  Color4,
-  Vector3,
-  MeshBuilder,
-  Mesh,
-  StandardMaterial,
-} from "@babylonjs/core";
+import { Color3, Color4, Vector3, MeshBuilder, Mesh, StandardMaterial } from "@babylonjs/core";
 import type { BabylonSceneApi } from "../BabylonSceneHost";
 import { glow, hsl, nebulaParticles } from "../graphics";
 
@@ -51,11 +44,7 @@ export function buildNebulaCathedral({ scene }: BabylonSceneApi) {
   for (let i = 0; i < 16; i++) {
     const a = (i / 16) * Math.PI * 2;
     const r = 22 + (i % 3) * 4;
-    const shard = MeshBuilder.CreatePolyhedron(
-      `shard${i}`,
-      { type: 2, size: 1.6 },
-      scene,
-    );
+    const shard = MeshBuilder.CreatePolyhedron(`shard${i}`, { type: 2, size: 1.6 }, scene);
     shard.position.set(Math.cos(a) * r, 8 + (i % 5) * 3, Math.sin(a) * r);
     shard.rotation.set(Math.random() * 3, Math.random() * 3, Math.random() * 3);
     shard.material = shardMat;

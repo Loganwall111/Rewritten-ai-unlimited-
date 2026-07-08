@@ -379,7 +379,10 @@ export const ARCHETYPES: Record<ArchetypeId, ArchetypeDef> = {
 export const ARCHETYPE_LIST = Object.values(ARCHETYPES);
 
 /** Time-of-day overlays that tweak sun + fog for the same world. */
-export const TIME_OF_DAY: Record<TimeOfDay, { sunIntensity: number; ambient: number; sunAngle: number; label: string; icon: string }> = {
+export const TIME_OF_DAY: Record<
+  TimeOfDay,
+  { sunIntensity: number; ambient: number; sunAngle: number; label: string; icon: string }
+> = {
   dawn: { sunIntensity: 1.4, ambient: 0.55, sunAngle: 0.12, label: "Dawn", icon: "🌅" },
   noon: { sunIntensity: 2.2, ambient: 0.85, sunAngle: 0.45, label: "Noon", icon: "☀️" },
   dusk: { sunIntensity: 1.1, ambient: 0.45, sunAngle: 0.08, label: "Dusk", icon: "🌇" },

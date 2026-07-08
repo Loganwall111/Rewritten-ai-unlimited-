@@ -86,9 +86,7 @@ export function deleteWorld(id: string): void {
 }
 
 export function toggleFavorite(id: string): void {
-  writeRaw(
-    readRaw().map((w) => (w.id === id ? { ...w, favorite: !w.favorite } : w)),
-  );
+  writeRaw(readRaw().map((w) => (w.id === id ? { ...w, favorite: !w.favorite } : w)));
 }
 
 export function setRating(id: string, rating: number): void {
@@ -115,9 +113,7 @@ export function discoverLandmark(id: string, landmarkId: string): void {
 }
 
 export function renameWorld(id: string, name: string): void {
-  writeRaw(
-    readRaw().map((w) => (w.id === id ? { ...w, name: name.trim() || w.name } : w)),
-  );
+  writeRaw(readRaw().map((w) => (w.id === id ? { ...w, name: name.trim() || w.name } : w)));
 }
 
 export function recordVisit(id: string): void {

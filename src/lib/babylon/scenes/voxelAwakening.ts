@@ -33,7 +33,7 @@ export function buildVoxelAwakening({ scene }: BabylonSceneApi) {
       const wx = x - GRID / 2;
       const wz = z - GRID / 2;
       const n = noise.fbm(wx * 0.08, wz * 0.08, { octaves: 4 });
-      const h = Math.max(1, Math.round(((n * 0.5 + 0.5) * 8) + 2));
+      const h = Math.max(1, Math.round((n * 0.5 + 0.5) * 8 + 2));
       heights[x][z] = h;
       let band = "grass";
       if (h <= 2) band = "water";
@@ -106,10 +106,13 @@ export function buildVoxelAwakening({ scene }: BabylonSceneApi) {
   }
 
   // Central beacon.
-  const beacon = MeshBuilder.CreateCylinder("beacon", { diameter: 1.2, height: 30, tessellation: 6 }, scene);
+  const beacon = MeshBuilder.CreateCylinder(
+    "beacon",
+    { diameter: 1.2, height: 30, tessellation: 6 },
+    scene,
+  );
   beacon.position.y = 15;
   beacon.material = glow(scene, hsl(50, 1, 0.7), 1.5);
-
 }
 
 void Color4;

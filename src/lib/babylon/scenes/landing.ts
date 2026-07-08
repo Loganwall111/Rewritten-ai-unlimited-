@@ -7,14 +7,7 @@
  * thing visitors see — maximal "wow" per byte.
  */
 
-import {
-  Color3,
-  Color4,
-  Vector3,
-  MeshBuilder,
-  Mesh,
-  StandardMaterial,
-} from "@babylonjs/core";
+import { Color3, Color4, Vector3, MeshBuilder, Mesh, StandardMaterial } from "@babylonjs/core";
 import type { BabylonSceneApi } from "../BabylonSceneHost";
 import { glow, hsl, nebulaParticles } from "../graphics";
 
@@ -55,7 +48,11 @@ export function buildLanding({ scene }: BabylonSceneApi) {
   const orbs: Mesh[] = [];
   const orbCount = 6;
   for (let i = 0; i < orbCount; i++) {
-    const orb = MeshBuilder.CreateSphere(`oacc${i}`, { diameter: 0.7 + (i % 3) * 0.3, segments: 12 }, scene);
+    const orb = MeshBuilder.CreateSphere(
+      `oacc${i}`,
+      { diameter: 0.7 + (i % 3) * 0.3, segments: 12 },
+      scene,
+    );
     orb.material = glow(scene, hsl(190 + i * 30, 1, 0.7), 2.0);
     orbs.push(orb);
   }

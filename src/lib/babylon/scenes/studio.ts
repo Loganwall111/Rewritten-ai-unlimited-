@@ -14,7 +14,11 @@ export function buildStudio({ scene }: BabylonSceneApi) {
   marbleFloor(scene, 80, hsl(220, 0.1, 0.15));
 
   // Turntable.
-  const turn = MeshBuilder.CreateCylinder("turn", { diameter: 8, height: 0.5, tessellation: 32 }, scene);
+  const turn = MeshBuilder.CreateCylinder(
+    "turn",
+    { diameter: 8, height: 0.5, tessellation: 32 },
+    scene,
+  );
   turn.material = pbr(scene, { baseColor: hsl(0, 0, 0.2), metallic: 0.9, roughness: 0.1 });
 
   // Sculpted form on the turntable.
@@ -23,7 +27,11 @@ export function buildStudio({ scene }: BabylonSceneApi) {
   form.material = glow(scene, hsl(280, 1, 0.6), 1.0);
 
   // Cyclorama backdrop (curved).
-  const cyc = MeshBuilder.CreateSphere("cyc", { diameter: 80, segments: 24, sideOrientation: 1 }, scene);
+  const cyc = MeshBuilder.CreateSphere(
+    "cyc",
+    { diameter: 80, segments: 24, sideOrientation: 1 },
+    scene,
+  );
   cyc.material = pbr(scene, { baseColor: hsl(220, 0.05, 0.5), metallic: 0, roughness: 1 });
 
   // Floating tool orbs.

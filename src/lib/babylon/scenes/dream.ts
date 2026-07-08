@@ -17,9 +17,17 @@ export function buildDream({ scene }: BabylonSceneApi) {
     const a = (i / 7) * Math.PI * 2 + Math.random();
     const r = 12 + Math.random() * 18;
     const y = Math.sin(i * 1.7) * 8;
-    const island = MeshBuilder.CreateCylinder(`island${i}`, { diameterTop: 6 + Math.random() * 4, diameterBottom: 1, height: 4, tessellation: 12 }, scene);
+    const island = MeshBuilder.CreateCylinder(
+      `island${i}`,
+      { diameterTop: 6 + Math.random() * 4, diameterBottom: 1, height: 4, tessellation: 12 },
+      scene,
+    );
     island.position.set(Math.cos(a) * r, y, Math.sin(a) * r);
-    island.material = pbr(scene, { baseColor: hsl(260 + i * 20, 0.4, 0.4), metallic: 0.2, roughness: 0.7 });
+    island.material = pbr(scene, {
+      baseColor: hsl(260 + i * 20, 0.4, 0.4),
+      metallic: 0.2,
+      roughness: 0.7,
+    });
     island.metadata = { base: island.position.clone(), phase: Math.random() * 6 };
     islands.push(island);
     // Tree on top.

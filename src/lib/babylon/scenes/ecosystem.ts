@@ -24,10 +24,18 @@ export function buildEcosystem({ scene }: BabylonSceneApi) {
       const wz = z - N / 2;
       const n = noise.fbm(wx * 0.07, wz * 0.07, { octaves: 4 });
       const h = Math.max(0.5, (n * 0.5 + 0.5) * 6);
-      const m = Matrix.Compose(new Vector3(1, h, 1), new Quaternion(), new Vector3(wx * 1.6, h / 2, wz * 1.6));
+      const m = Matrix.Compose(
+        new Vector3(1, h, 1),
+        new Quaternion(),
+        new Vector3(wx * 1.6, h / 2, wz * 1.6),
+      );
       terraMats.push(Array.from(m.m));
       if (h > 2 && Math.random() < 0.3) {
-        const tm = Matrix.Compose(new Vector3(0.8, 4, 0.8), new Quaternion(), new Vector3(wx * 1.6, h + 2, wz * 1.6));
+        const tm = Matrix.Compose(
+          new Vector3(0.8, 4, 0.8),
+          new Quaternion(),
+          new Vector3(wx * 1.6, h + 2, wz * 1.6),
+        );
         trees.push(Array.from(tm.m));
       }
     }
@@ -40,7 +48,11 @@ export function buildEcosystem({ scene }: BabylonSceneApi) {
 
   // Trees.
   if (trees.length) {
-    const trunk = MeshBuilder.CreateCylinder("trunk", { diameter: 0.6, height: 4, tessellation: 6 }, scene);
+    const trunk = MeshBuilder.CreateCylinder(
+      "trunk",
+      { diameter: 0.6, height: 4, tessellation: 6 },
+      scene,
+    );
     trunk.material = pbr(scene, { baseColor: hsl(25, 0.6, 0.25), metallic: 0, roughness: 1 });
     const trf = new Float32Array(trees.length * 16);
     trees.forEach((m, i) => trf.set(m, i * 16));

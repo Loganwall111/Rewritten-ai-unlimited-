@@ -15,11 +15,19 @@ export function buildDisasters({ scene }: BabylonSceneApi) {
   starField(scene, 800, 400);
 
   // Volcano cone.
-  const cone = MeshBuilder.CreateCylinder("cone", { diameterTop: 3, diameterBottom: 20, height: 12, tessellation: 16 }, scene);
+  const cone = MeshBuilder.CreateCylinder(
+    "cone",
+    { diameterTop: 3, diameterBottom: 20, height: 12, tessellation: 16 },
+    scene,
+  );
   cone.position.y = 6;
   cone.material = pbr(scene, { baseColor: hsl(15, 0.5, 0.2), metallic: 0.2, roughness: 0.95 });
   // Lava pool at the crater.
-  const lava = MeshBuilder.CreateCylinder("lava", { diameter: 3, height: 0.4, tessellation: 16 }, scene);
+  const lava = MeshBuilder.CreateCylinder(
+    "lava",
+    { diameter: 3, height: 0.4, tessellation: 16 },
+    scene,
+  );
   lava.position.y = 12;
   lava.material = glow(scene, hsl(15, 1, 0.5), 2.5);
 

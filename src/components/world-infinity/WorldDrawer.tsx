@@ -144,17 +144,17 @@ export function WorldDrawer({
 
               {/* Stats */}
               <div className="grid grid-cols-3 gap-2 text-center">
-                <Stat icon={<Eye className="w-3.5 h-3.5" />} label="Visits" value={String(world.visits)} />
+                <Stat
+                  icon={<Eye className="w-3.5 h-3.5" />}
+                  label="Visits"
+                  value={String(world.visits)}
+                />
                 <Stat
                   icon={<Clock className="w-3.5 h-3.5" />}
                   label="Hour"
                   value={TIME_OF_DAY[world.timeOfDay].label}
                 />
-                <Stat
-                  icon={<Globe2 className="w-3.5 h-3.5" />}
-                  label="Seed"
-                  value={world.seed}
-                />
+                <Stat icon={<Globe2 className="w-3.5 h-3.5" />} label="Seed" value={world.seed} />
               </div>
 
               {/* Rating */}
@@ -193,7 +193,10 @@ export function WorldDrawer({
                     onChange={(e) => setDraftName(e.target.value)}
                     maxLength={42}
                     className="flex-1 rounded-xl px-3.5 py-2.5 text-sm text-[#E8F4FF] outline-none"
-                    style={{ background: "rgba(0,0,0,0.35)", border: "1px solid rgba(140,180,255,0.18)" }}
+                    style={{
+                      background: "rgba(0,0,0,0.35)",
+                      border: "1px solid rgba(140,180,255,0.18)",
+                    }}
                   />
                   <button
                     data-nodrag
@@ -203,7 +206,10 @@ export function WorldDrawer({
                       playClick();
                     }}
                     className="px-3.5 rounded-xl text-[#00F2FF] transition hover:scale-105"
-                    style={{ background: "rgba(0,242,255,0.1)", border: "1px solid rgba(0,242,255,0.3)" }}
+                    style={{
+                      background: "rgba(0,242,255,0.1)",
+                      border: "1px solid rgba(0,242,255,0.3)",
+                    }}
                     title="Save name"
                   >
                     <Pencil className="w-4 h-4" />
@@ -221,7 +227,10 @@ export function WorldDrawer({
                   rows={3}
                   placeholder="What did you find here?"
                   className="mt-2 w-full rounded-xl px-3.5 py-2.5 text-sm text-[#E8F4FF] outline-none resize-none"
-                  style={{ background: "rgba(0,0,0,0.35)", border: "1px solid rgba(140,180,255,0.18)" }}
+                  style={{
+                    background: "rgba(0,0,0,0.35)",
+                    border: "1px solid rgba(140,180,255,0.18)",
+                  }}
                 />
               </section>
 
@@ -234,9 +243,16 @@ export function WorldDrawer({
                     onMouseEnter={sfxHover}
                     onClick={copySeed}
                     className="flex-1 flex items-center justify-center gap-2 rounded-xl px-3.5 py-2.5 text-xs font-mono text-[#E0F7FA]/80 transition hover:scale-[1.02]"
-                    style={{ background: "rgba(0,0,0,0.35)", border: "1px solid rgba(140,180,255,0.18)" }}
+                    style={{
+                      background: "rgba(0,0,0,0.35)",
+                      border: "1px solid rgba(140,180,255,0.18)",
+                    }}
                   >
-                    {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+                    {copied ? (
+                      <Check className="w-4 h-4 text-emerald-400" />
+                    ) : (
+                      <Copy className="w-4 h-4" />
+                    )}
                     {world.seed}
                   </button>
                   <button
@@ -248,7 +264,10 @@ export function WorldDrawer({
                       sfxSparkleBurst(world.hue);
                     }}
                     className="px-3.5 rounded-xl text-[#7fffe0] transition hover:scale-105"
-                    style={{ background: "rgba(127,255,224,0.1)", border: "1px solid rgba(127,255,224,0.3)" }}
+                    style={{
+                      background: "rgba(127,255,224,0.1)",
+                      border: "1px solid rgba(127,255,224,0.3)",
+                    }}
                   >
                     <RefreshCw className="w-4 h-4" />
                   </button>
@@ -326,6 +345,8 @@ function Stat({ icon, label, value }: { icon: React.ReactNode; label: string; va
 
 function Label({ text }: { text: string }) {
   return (
-    <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#E0F7FA]/45">{text}</span>
+    <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#E0F7FA]/45">
+      {text}
+    </span>
   );
 }

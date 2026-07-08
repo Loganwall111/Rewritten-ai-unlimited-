@@ -14,13 +14,7 @@ import { heightAt } from "@/lib/worldInfinity/generator";
 const SIZE = 240;
 const SEGMENTS = 160; // 160×160 = 25.6k verts — plenty of detail at 60fps.
 
-export function ProceduralTerrain({
-  archetype,
-  seed,
-}: {
-  archetype: ArchetypeDef;
-  seed: string;
-}) {
+export function ProceduralTerrain({ archetype, seed }: { archetype: ArchetypeDef; seed: string }) {
   const meshRef = useRef<THREE.Mesh>(null!);
 
   const geometry = useMemo(() => {

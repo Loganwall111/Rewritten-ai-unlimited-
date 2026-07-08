@@ -38,7 +38,11 @@ export function buildDNA({ scene }: BabylonSceneApi) {
     strandB.push(b);
     // Rung every few nodes.
     if (i % 2 === 0) {
-      const rung = MeshBuilder.CreateCylinder(`rung${i}`, { diameter: 0.12, height: r * 2, tessellation: 5 }, scene);
+      const rung = MeshBuilder.CreateCylinder(
+        `rung${i}`,
+        { diameter: 0.12, height: r * 2, tessellation: 5 },
+        scene,
+      );
       rung.position.set(0, y, 0);
       rung.rotation.z = Math.PI / 2;
       rung.rotation.y = -ang;
@@ -59,7 +63,7 @@ export function buildDNA({ scene }: BabylonSceneApi) {
   });
 
   scene.onBeforeRenderObservable.add(() => {
-    helix.rotation.y += scene.getEngine().getDeltaTime() / 1000 * 0.4;
+    helix.rotation.y += (scene.getEngine().getDeltaTime() / 1000) * 0.4;
   });
 }
 

@@ -101,11 +101,7 @@ export function pbr(
 }
 
 /** A standard material with strong emissive glow (for energy/orbs/lights). */
-export function glow(
-  scene: Scene,
-  color: Color3,
-  intensity = 1.5,
-): StandardMaterial {
+export function glow(scene: Scene, color: Color3, intensity = 1.5): StandardMaterial {
   const m = new StandardMaterial("glow", scene);
   m.emissiveColor = color.scale(intensity);
   m.diffuseColor = color;
@@ -115,11 +111,7 @@ export function glow(
 }
 
 /** A glassy transparent material (for portals / water surfaces). */
-export function glass(
-  scene: Scene,
-  tint: Color3,
-  opacity = 0.4,
-): StandardMaterial {
+export function glass(scene: Scene, tint: Color3, opacity = 0.4): StandardMaterial {
   const m = new StandardMaterial("glass", scene);
   m.diffuseColor = tint;
   m.emissiveColor = tint.scale(0.25);
@@ -186,12 +178,7 @@ export function nebulaParticles(
 }
 
 /** Build a glowing icosphere (the signature "Rewritten" orb). */
-export function glowingIcosphere(
-  scene: Scene,
-  radius: number,
-  color: Color3,
-  detail = 3,
-): Mesh {
+export function glowingIcosphere(scene: Scene, radius: number, color: Color3, detail = 3): Mesh {
   const mesh = MeshBuilder.CreateIcoSphere(
     "ico",
     { radius, subdivisions: detail, updatable: false },
@@ -208,7 +195,11 @@ export function marbleFloor(
   size = 200,
   color: Color3 = new Color3(0.08, 0.09, 0.13),
 ): Mesh {
-  const floor = MeshBuilder.CreateGround("floor", { width: size, height: size, subdivisions: 2 }, scene);
+  const floor = MeshBuilder.CreateGround(
+    "floor",
+    { width: size, height: size, subdivisions: 2 },
+    scene,
+  );
   floor.material = pbr(scene, {
     baseColor: color,
     metallic: 0.85,
@@ -219,11 +210,7 @@ export function marbleFloor(
 }
 
 /** Thin-instance batch helper — render hundreds of identical meshes cheaply. */
-export function batchInstances(
-  scene: Scene,
-  template: Mesh,
-  matrices: Float32Array,
-): Mesh {
+export function batchInstances(scene: Scene, template: Mesh, matrices: Float32Array): Mesh {
   template.thinInstanceSetBuffer("matrix", matrices, 16, true);
   castShadow(scene, template);
   return template;
@@ -272,7 +259,9 @@ function hslToHex(h: number, s: number, l: number): string {
   const c = (1 - Math.abs(2 * l - 1)) * s;
   const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
   const m = l - c / 2;
-  let r = 0, g = 0, b = 0;
+  let r = 0,
+    g = 0,
+    b = 0;
   if (h < 60) [r, g, b] = [c, x, 0];
   else if (h < 120) [r, g, b] = [x, c, 0];
   else if (h < 180) [r, g, b] = [0, c, x];

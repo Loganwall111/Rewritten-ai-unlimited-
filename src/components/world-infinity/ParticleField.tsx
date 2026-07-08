@@ -25,37 +25,119 @@ interface ParticleConfig {
 export function particleConfig(kind: ParticleKind, archetype: ArchetypeDef): ParticleConfig {
   switch (kind) {
     case "pollen":
-      return { color: "#fff6c0", size: 0.18, gravity: 0, drift: 0.4, speed: 0.3, opacity: 0.8, additive: true };
+      return {
+        color: "#fff6c0",
+        size: 0.18,
+        gravity: 0,
+        drift: 0.4,
+        speed: 0.3,
+        opacity: 0.8,
+        additive: true,
+      };
     case "embers":
-      return { color: archetype.palette.emissive, size: 0.16, gravity: -0.6, drift: 0.3, speed: 1.4, opacity: 0.95, additive: true };
+      return {
+        color: archetype.palette.emissive,
+        size: 0.16,
+        gravity: -0.6,
+        drift: 0.3,
+        speed: 1.4,
+        opacity: 0.95,
+        additive: true,
+      };
     case "snow":
-      return { color: "#ffffff", size: 0.28, gravity: 0.6, drift: 0.5, speed: 1.0, opacity: 0.9, additive: false };
+      return {
+        color: "#ffffff",
+        size: 0.28,
+        gravity: 0.6,
+        drift: 0.5,
+        speed: 1.0,
+        opacity: 0.9,
+        additive: false,
+      };
     case "spores":
-      return { color: archetype.palette.emissive, size: 0.2, gravity: 0, drift: 0.5, speed: 0.4, opacity: 0.7, additive: true };
+      return {
+        color: archetype.palette.emissive,
+        size: 0.2,
+        gravity: 0,
+        drift: 0.5,
+        speed: 0.4,
+        opacity: 0.7,
+        additive: true,
+      };
     case "dust":
-      return { color: "#e8d0a0", size: 0.14, gravity: 0, drift: 0.8, speed: 0.6, opacity: 0.5, additive: true };
+      return {
+        color: "#e8d0a0",
+        size: 0.14,
+        gravity: 0,
+        drift: 0.8,
+        speed: 0.6,
+        opacity: 0.5,
+        additive: true,
+      };
     case "bubbles":
-      return { color: archetype.palette.emissive, size: 0.3, gravity: -0.5, drift: 0.4, speed: 0.8, opacity: 0.6, additive: true };
+      return {
+        color: archetype.palette.emissive,
+        size: 0.3,
+        gravity: -0.5,
+        drift: 0.4,
+        speed: 0.8,
+        opacity: 0.6,
+        additive: true,
+      };
     case "rain":
-      return { color: "#9fd8ff", size: 0.08, gravity: 4, drift: 0.1, speed: 6, opacity: 0.5, additive: false };
+      return {
+        color: "#9fd8ff",
+        size: 0.08,
+        gravity: 4,
+        drift: 0.1,
+        speed: 6,
+        opacity: 0.5,
+        additive: false,
+      };
     case "data":
-      return { color: archetype.palette.emissive, size: 0.12, gravity: 0.7, drift: 0.2, speed: 1.2, opacity: 0.9, additive: true };
+      return {
+        color: archetype.palette.emissive,
+        size: 0.12,
+        gravity: 0.7,
+        drift: 0.2,
+        speed: 1.2,
+        opacity: 0.9,
+        additive: true,
+      };
     case "stardust":
-      return { color: "#ffffff", size: 0.16, gravity: 0, drift: 0.3, speed: 0.2, opacity: 0.9, additive: true };
+      return {
+        color: "#ffffff",
+        size: 0.16,
+        gravity: 0,
+        drift: 0.3,
+        speed: 0.2,
+        opacity: 0.9,
+        additive: true,
+      };
     case "leaves":
-      return { color: archetype.palette.foliage, size: 0.34, gravity: 0.2, drift: 1.2, speed: 0.7, opacity: 0.85, additive: false };
+      return {
+        color: archetype.palette.foliage,
+        size: 0.34,
+        gravity: 0.2,
+        drift: 1.2,
+        speed: 0.7,
+        opacity: 0.85,
+        additive: false,
+      };
     default:
-      return { color: "#ffffff", size: 0.2, gravity: 0, drift: 0.3, speed: 0.4, opacity: 0.7, additive: true };
+      return {
+        color: "#ffffff",
+        size: 0.2,
+        gravity: 0,
+        drift: 0.3,
+        speed: 0.4,
+        opacity: 0.7,
+        additive: true,
+      };
   }
 }
 
-export function ParticleField({
-  archetype,
-  seed,
-}: {
-  archetype: ArchetypeDef;
-  seed: string;
-}) {
+export function ParticleField({ archetype, seed }: { archetype: ArchetypeDef; seed: string }) {
   const pointsRef = useRef<THREE.Points>(null!);
   const cfg = particleConfig(archetype.particles, archetype);
 

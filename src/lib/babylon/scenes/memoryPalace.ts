@@ -32,7 +32,11 @@ export function buildMemoryPalace({ scene }: BabylonSceneApi) {
   }
 
   // Central dais.
-  const dais = MeshBuilder.CreateCylinder("dais", { diameter: 6, height: 1, tessellation: 32 }, scene);
+  const dais = MeshBuilder.CreateCylinder(
+    "dais",
+    { diameter: 6, height: 1, tessellation: 32 },
+    scene,
+  );
   dais.material = glow(scene, hsl(50, 0.6, 0.5), 0.6);
 
   nebulaParticles(scene, {

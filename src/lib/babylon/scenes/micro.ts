@@ -23,7 +23,11 @@ export function buildMicro({ scene }: BabylonSceneApi) {
   // Organelles.
   const organelles: Mesh[] = [];
   for (let i = 0; i < 14; i++) {
-    const o = MeshBuilder.CreateSphere(`org${i}`, { diameter: 2 + Math.random() * 2.5, segments: 12 }, scene);
+    const o = MeshBuilder.CreateSphere(
+      `org${i}`,
+      { diameter: 2 + Math.random() * 2.5, segments: 12 },
+      scene,
+    );
     o.material = glow(scene, hsl(140 + Math.random() * 80, 0.9, 0.5), 0.9);
     const a = Math.random() * Math.PI * 2;
     const r = 6 + Math.random() * 16;
@@ -41,7 +45,11 @@ export function buildMicro({ scene }: BabylonSceneApi) {
     const b = organelles[(i + 3) % organelles.length].position;
     const mid = a.add(b).scale(0.5);
     const len = a.subtract(b).length();
-    const fil = MeshBuilder.CreateCylinder(`fil${i}`, { diameter: 0.15, height: len, tessellation: 6 }, scene);
+    const fil = MeshBuilder.CreateCylinder(
+      `fil${i}`,
+      { diameter: 0.15, height: len, tessellation: 6 },
+      scene,
+    );
     fil.material = filMat;
     fil.position = mid;
     fil.lookAt(b);

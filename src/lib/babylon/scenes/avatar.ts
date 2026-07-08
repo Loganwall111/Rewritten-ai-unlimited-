@@ -14,7 +14,12 @@ export function buildAvatar({ scene }: BabylonSceneApi) {
   marbleFloor(scene, 60, hsl(280, 0.15, 0.1));
 
   const root = new Mesh("avatar", scene);
-  const bodyMat = pbr(scene, { baseColor: hsl(195, 0.7, 0.5), metallic: 0.6, roughness: 0.3, emissive: hsl(195, 1, 0.2) });
+  const bodyMat = pbr(scene, {
+    baseColor: hsl(195, 0.7, 0.5),
+    metallic: 0.6,
+    roughness: 0.3,
+    emissive: hsl(195, 1, 0.2),
+  });
   // Head.
   const head = MeshBuilder.CreateSphere("head", { diameter: 1.8, segments: 24 }, scene);
   head.position.y = 6.5;
@@ -58,7 +63,11 @@ export function buildAvatar({ scene }: BabylonSceneApi) {
   }
 
   // Dais.
-  const dais = MeshBuilder.CreateCylinder("dais", { diameter: 5, height: 0.6, tessellation: 32 }, scene);
+  const dais = MeshBuilder.CreateCylinder(
+    "dais",
+    { diameter: 5, height: 0.6, tessellation: 32 },
+    scene,
+  );
   dais.material = glow(scene, hsl(280, 0.8, 0.4), 0.5);
 
   let t = 0;

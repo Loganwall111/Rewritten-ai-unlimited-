@@ -5,7 +5,18 @@
  */
 
 import { useEffect, useRef } from "react";
-import { Engine, Scene, ArcRotateCamera, Vector3, HemisphericLight, Color3, MeshBuilder, StandardMaterial, Color4 } from "@babylonjs/core";
+import {
+  Engine,
+  Scene,
+  ArcRotateCamera,
+  Vector3,
+  HemisphericLight,
+  Color3,
+  MeshBuilder,
+  StandardMaterial,
+  Color4,
+  Mesh,
+} from "@babylonjs/core";
 
 export function Companion({ hue = 190 }: { hue?: number }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -17,7 +28,14 @@ export function Companion({ hue = 190 }: { hue?: number }) {
     const engine = new Engine(canvas, true, { alpha: true, antialias: true }, true);
     const scene = new Scene(engine);
     scene.clearColor = new Color4(0, 0, 0, 0);
-    const camera = new ArcRotateCamera("c", -Math.PI / 2, Math.PI / 2.2, 8, new Vector3(0, 0, 0), scene);
+    const camera = new ArcRotateCamera(
+      "c",
+      -Math.PI / 2,
+      Math.PI / 2.2,
+      8,
+      new Vector3(0, 0, 0),
+      scene,
+    );
     camera.minZ = 0.1;
     const hemi = new HemisphericLight("h", new Vector3(0, 1, 0), scene);
     hemi.intensity = 0.9;
@@ -35,7 +53,7 @@ export function Companion({ hue = 190 }: { hue?: number }) {
     whiteMat.emissiveColor = new Color3(0.9, 0.9, 0.9);
     const pupilMat = new StandardMaterial("pm", scene);
     pupilMat.diffuseColor = new Color3(0.02, 0.02, 0.05);
-    const eyes: { socket: any; pupil: any }[] = [];
+    const eyes: { socket: Mesh; pupil: Mesh }[] = [];
     for (const sx of [-1, 1]) {
       const socket = MeshBuilder.CreateSphere(`eye${sx}`, { diameter: 1.1, segments: 16 }, scene);
       socket.position.set(sx * 0.9, 0.5, 1.6);
@@ -96,17 +114,23 @@ export function Companion({ hue = 190 }: { hue?: number }) {
 
 function hslHex(h: number): string {
   h = ((h % 360) + 360) % 360;
-  const s = 0.8, l = 0.55;
+  const s = 0.8,
+    l = 0.55;
   const c = (1 - Math.abs(2 * l - 1)) * s;
   const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
   const m = l - c / 2;
-  let r = 0, g = 0, b = 0;
+  let r = 0,
+    g = 0,
+    b = 0;
   if (h < 60) [r, g, b] = [c, x, 0];
   else if (h < 120) [r, g, b] = [x, c, 0];
   else if (h < 180) [r, g, b] = [0, c, x];
   else if (h < 240) [r, g, b] = [0, x, c];
   else if (h < 300) [r, g, b] = [x, 0, c];
   else [r, g, b] = [c, 0, x];
-  const to = (v: number) => Math.round((v + m) * 255).toString(16).padStart(2, "0");
+  const to = (v: number) =>
+    Math.round((v + m) * 255)
+      .toString(16)
+      .padStart(2, "0");
   return `#${to(r)}${to(g)}${to(b)}`;
 }

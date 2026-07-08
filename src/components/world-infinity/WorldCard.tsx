@@ -178,7 +178,10 @@ export function WorldCard({
             onClick={open}
             title="Details"
             className="w-9 h-9 rounded-xl flex items-center justify-center text-[#E0F7FA]/60 hover:text-[#00F2FF] transition"
-            style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(140,180,255,0.12)" }}
+            style={{
+              background: "rgba(255,255,255,0.05)",
+              border: "1px solid rgba(140,180,255,0.12)",
+            }}
           >
             <span className="text-base leading-none">⌥</span>
           </button>
@@ -187,7 +190,10 @@ export function WorldCard({
             onClick={del}
             title="Delete"
             className="w-9 h-9 rounded-xl flex items-center justify-center text-[#E0F7FA]/40 hover:text-red-400 transition"
-            style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(140,180,255,0.12)" }}
+            style={{
+              background: "rgba(255,255,255,0.05)",
+              border: "1px solid rgba(140,180,255,0.12)",
+            }}
           >
             <Trash2 className="w-3.5 h-3.5" />
           </button>

@@ -54,11 +54,21 @@ export async function buildPhysics({ scene }: BabylonSceneApi) {
     );
     obj.rotation.set(Math.random(), Math.random(), Math.random());
     obj.material = isBox
-      ? pbr(scene, { baseColor: hsl(hue, 0.7, 0.5), metallic: 0.7, roughness: 0.3, emissive: hsl(hue, 0.8, 0.15) })
+      ? pbr(scene, {
+          baseColor: hsl(hue, 0.7, 0.5),
+          metallic: 0.7,
+          roughness: 0.3,
+          emissive: hsl(hue, 0.8, 0.15),
+        })
       : glow(scene, hsl(hue, 1, 0.6), 1.2);
     if (hasPhysics) {
       const shape = isBox ? PhysicsShapeType.BOX : PhysicsShapeType.SPHERE;
-      const agg = new PhysicsAggregate(obj, shape, { mass: 1, restitution: 0.7, friction: 0.4 }, scene);
+      const agg = new PhysicsAggregate(
+        obj,
+        shape,
+        { mass: 1, restitution: 0.7, friction: 0.4 },
+        scene,
+      );
       void agg;
     }
     dynamics.push(obj);

@@ -18,15 +18,27 @@ export function buildSpaceElevator({ scene }: BabylonSceneApi) {
   planet.receiveShadows = true;
 
   // Tether (the elevator cable).
-  const tether = MeshBuilder.CreateCylinder("tether", { diameter: 0.4, height: 90, tessellation: 8 }, scene);
+  const tether = MeshBuilder.CreateCylinder(
+    "tether",
+    { diameter: 0.4, height: 90, tessellation: 8 },
+    scene,
+  );
   tether.position.y = 35;
   tether.material = glow(scene, hsl(190, 1, 0.7), 0.8);
 
   // Orbital station at the top.
-  const station = MeshBuilder.CreateCylinder("station", { diameter: 10, height: 3, tessellation: 24 }, scene);
+  const station = MeshBuilder.CreateCylinder(
+    "station",
+    { diameter: 10, height: 3, tessellation: 24 },
+    scene,
+  );
   station.position.y = 78;
   station.material = pbr(scene, { baseColor: hsl(210, 0.2, 0.7), metallic: 0.9, roughness: 0.2 });
-  const stationRing = MeshBuilder.CreateTorus("stRing", { diameter: 14, thickness: 0.5, tessellation: 48 }, scene);
+  const stationRing = MeshBuilder.CreateTorus(
+    "stRing",
+    { diameter: 14, thickness: 0.5, tessellation: 48 },
+    scene,
+  );
   stationRing.position.y = 78;
   stationRing.rotation.x = Math.PI / 2;
   stationRing.material = glow(scene, hsl(190, 1, 0.7), 1.2);

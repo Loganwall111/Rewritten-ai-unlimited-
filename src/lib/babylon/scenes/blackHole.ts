@@ -20,7 +20,11 @@ export function buildBlackHole({ scene }: BabylonSceneApi) {
   horizon.material = hm;
 
   // Photon sphere ring.
-  const photon = MeshBuilder.CreateTorus("photon", { diameter: 11, thickness: 0.25, tessellation: 128 }, scene);
+  const photon = MeshBuilder.CreateTorus(
+    "photon",
+    { diameter: 11, thickness: 0.25, tessellation: 128 },
+    scene,
+  );
   photon.material = glow(scene, hsl(45, 1, 0.75), 3.0);
   photon.rotation.x = Math.PI / 2;
 

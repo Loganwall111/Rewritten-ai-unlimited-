@@ -25,11 +25,7 @@ import {
 import type { InfinityWorld, TimeOfDay } from "@/lib/worldInfinity/types";
 import { ARCHETYPES, TIME_OF_DAY } from "@/lib/worldInfinity/biomes";
 import { generateLandmarks, type Landmark } from "@/lib/worldInfinity/landmarks";
-import {
-  InfinityExplorerScene,
-  makePlayer,
-  type ExplorerPlayer,
-} from "./InfinityExplorerScene";
+import { InfinityExplorerScene, makePlayer, type ExplorerPlayer } from "./InfinityExplorerScene";
 import { useVoice } from "@/lib/useVoice";
 import { playClick, sfxHover, sfxPortalBoom, sfxSparkleBurst } from "@/lib/sound";
 import { toast } from "sonner";
@@ -183,7 +179,10 @@ export function InfinityExplorer({
 
       {/* Crosshair */}
       <div className="pointer-events-none fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-        <Crosshair className="w-5 h-5 text-white/70" style={{ filter: "drop-shadow(0 0 6px rgba(0,0,0,0.8))" }} />
+        <Crosshair
+          className="w-5 h-5 text-white/70"
+          style={{ filter: "drop-shadow(0 0 6px rgba(0,0,0,0.8))" }}
+        />
       </div>
 
       {/* Loading veil */}
@@ -266,8 +265,7 @@ export function InfinityExplorer({
           }}
         >
           <div className="flex items-center gap-2">
-            <MapPin className="w-3 h-3 text-[#00F2FF]" />
-            X {coords.x} · Z {coords.z}
+            <MapPin className="w-3 h-3 text-[#00F2FF]" />X {coords.x} · Z {coords.z}
           </div>
           <div className="flex items-center gap-2 mt-0.5">
             <Compass className="w-3 h-3 text-[#00F2FF]" />
@@ -328,7 +326,8 @@ export function InfinityExplorer({
           }}
           title="Cycle time of day"
         >
-          <Clock className="w-3.5 h-3.5" /> {TIME_OF_DAY[timeOfDay].icon} {TIME_OF_DAY[timeOfDay].label}
+          <Clock className="w-3.5 h-3.5" /> {TIME_OF_DAY[timeOfDay].icon}{" "}
+          {TIME_OF_DAY[timeOfDay].label}
         </button>
         <button
           data-nodrag
@@ -363,13 +362,21 @@ export function InfinityExplorer({
                 border: "1px solid rgba(140,180,255,0.18)",
               }}
             >
-              <span><kbd className="text-[#00F2FF]">WASD</kbd> walk</span>
+              <span>
+                <kbd className="text-[#00F2FF]">WASD</kbd> walk
+              </span>
               <span className="opacity-40">·</span>
-              <span><kbd className="text-[#00F2FF]">Drag</kbd> look</span>
+              <span>
+                <kbd className="text-[#00F2FF]">Drag</kbd> look
+              </span>
               <span className="opacity-40">·</span>
-              <span><kbd className="text-[#00F2FF]">Space</kbd> jump</span>
+              <span>
+                <kbd className="text-[#00F2FF]">Space</kbd> jump
+              </span>
               <span className="opacity-40">·</span>
-              <span><kbd className="text-[#00F2FF]">Shift</kbd> sprint</span>
+              <span>
+                <kbd className="text-[#00F2FF]">Shift</kbd> sprint
+              </span>
             </div>
           </motion.div>
         )}

@@ -50,7 +50,15 @@ function propGeometry(kind: PropKind, rng: Rng): THREE.BufferGeometry {
     case "mushroom": {
       const stem = new THREE.CylinderGeometry(0.3, 0.5, rng.range(3, 6), 8);
       stem.translate(0, rng.range(1.5, 3), 0);
-      const cap = new THREE.SphereGeometry(rng.range(1.6, 2.6), 10, 8, 0, Math.PI * 2, 0, Math.PI / 2);
+      const cap = new THREE.SphereGeometry(
+        rng.range(1.6, 2.6),
+        10,
+        8,
+        0,
+        Math.PI * 2,
+        0,
+        Math.PI / 2,
+      );
       cap.translate(0, rng.range(3, 6), 0);
       cap.scale(1, 0.6, 1);
       return mergeGeos([stem, cap]);
@@ -159,13 +167,7 @@ interface Instance {
   matrices: THREE.Matrix4[];
 }
 
-export function PropField({
-  archetype,
-  seed,
-}: {
-  archetype: ArchetypeDef;
-  seed: string;
-}) {
+export function PropField({ archetype, seed }: { archetype: ArchetypeDef; seed: string }) {
   const instances = useMemo<Instance[]>(() => {
     const grid = new ScatterGrid(seed, 7);
     const rng = new Rng(`${seed}::propmeta`);
@@ -185,7 +187,10 @@ export function PropField({
       const scale = rng.range(0.7, 1.4);
       const m = new THREE.Matrix4().compose(
         new THREE.Vector3(x, y, z),
-        new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), rng.float() * Math.PI * 2),
+        new THREE.Quaternion().setFromAxisAngle(
+          new THREE.Vector3(0, 1, 0),
+          rng.float() * Math.PI * 2,
+        ),
         new THREE.Vector3(scale, scale, scale),
       );
       bucket.push(m);
@@ -245,7 +250,11 @@ function PropKindMesh({
         isEmissive = true;
         break;
       case "rock":
-        mat = new THREE.MeshStandardMaterial({ color: p.groundAccent, roughness: 1, metalness: 0.05 });
+        mat = new THREE.MeshStandardMaterial({
+          color: p.groundAccent,
+          roughness: 1,
+          metalness: 0.05,
+        });
         break;
       case "mushroom":
         mat = new THREE.MeshStandardMaterial({

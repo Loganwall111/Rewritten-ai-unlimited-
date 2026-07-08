@@ -53,18 +53,25 @@ function ScenesGallery() {
               to="/home"
               onMouseEnter={sfxHover}
               className="w-9 h-9 rounded-full flex items-center justify-center text-[#E0F7FA]/60 hover:text-[#00F2FF] transition"
-              style={{ background: "rgba(15,25,45,0.5)", backdropFilter: "blur(12px)", border: "1px solid rgba(140,180,255,0.15)" }}
+              style={{
+                background: "rgba(15,25,45,0.5)",
+                backdropFilter: "blur(12px)",
+                border: "1px solid rgba(140,180,255,0.15)",
+              }}
             >
               <ArrowLeft className="w-4 h-4" />
             </Link>
             <div>
-              <p className="font-mono text-[10px] uppercase tracking-[0.5em] text-[#00F2FF]/70">Babylon · Engine</p>
+              <p className="font-mono text-[10px] uppercase tracking-[0.5em] text-[#00F2FF]/70">
+                Babylon · Engine
+              </p>
               <h1
                 className="text-3xl sm:text-4xl leading-none"
                 style={{
                   fontFamily: "var(--font-display), sans-serif",
                   color: "#E0F7FA",
-                  textShadow: "-2px 0 rgba(0,242,255,0.4), 2px 0 rgba(236,72,153,0.3), 0 0 40px rgba(120,180,255,0.4)",
+                  textShadow:
+                    "-2px 0 rgba(0,242,255,0.4), 2px 0 rgba(236,72,153,0.3), 0 0 40px rgba(120,180,255,0.4)",
                 }}
               >
                 Cinematic Scenes
@@ -76,7 +83,10 @@ function ScenesGallery() {
             onClick={randomDive}
             onMouseEnter={sfxHover}
             className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-[11px] font-mono uppercase tracking-[0.25em] text-yellow-200 transition hover:scale-105"
-            style={{ background: "rgba(255,210,80,0.12)", border: "1px solid rgba(255,210,80,0.4)" }}
+            style={{
+              background: "rgba(255,210,80,0.12)",
+              border: "1px solid rgba(255,210,80,0.4)",
+            }}
           >
             <Dices className="w-4 h-4" /> Random dive
           </button>
@@ -103,7 +113,8 @@ function ScenesGallery() {
             className="rounded-full px-3.5 py-1.5 text-[10px] font-mono uppercase tracking-[0.2em] transition hover:scale-105"
             style={{
               color: category === c ? "#001417" : "#9fd8ff",
-              background: category === c ? "linear-gradient(135deg, #7fffe0, #00F2FF)" : "rgba(11,16,26,0.5)",
+              background:
+                category === c ? "linear-gradient(135deg, #7fffe0, #00F2FF)" : "rgba(11,16,26,0.5)",
               border: category === c ? "none" : "1px solid rgba(140,180,255,0.15)",
             }}
           >
@@ -114,7 +125,10 @@ function ScenesGallery() {
 
       {/* Grid */}
       <main className="px-6 sm:px-10 max-w-7xl mx-auto mt-7">
-        <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <motion.div
+          layout
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+        >
           <AnimatePresence mode="popLayout">
             {filtered.map((entry, i) => (
               <SceneTile key={entry.slug} entry={entry} index={i} />
@@ -179,7 +193,8 @@ function SceneTile({ entry, index }: { entry: SceneEntry; index: number }) {
           {entry.category}
         </span>
 
-        <div className="absolute bottom-0 left-0 right-0 p-4"
+        <div
+          className="absolute bottom-0 left-0 right-0 p-4"
           style={{ background: "linear-gradient(0deg, rgba(11,16,26,0.95), transparent)" }}
         >
           <h3
@@ -188,7 +203,9 @@ function SceneTile({ entry, index }: { entry: SceneEntry; index: number }) {
           >
             {entry.title}
           </h3>
-          <p className="mt-1 text-[11px] text-[#E0F7FA]/55 line-clamp-2 leading-snug">{entry.blurb}</p>
+          <p className="mt-1 text-[11px] text-[#E0F7FA]/55 line-clamp-2 leading-snug">
+            {entry.blurb}
+          </p>
         </div>
       </Link>
     </motion.div>

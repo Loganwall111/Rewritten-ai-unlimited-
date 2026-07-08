@@ -6,7 +6,15 @@
  * together in 3D".
  */
 
-import { Color3, Color4, Vector3, MeshBuilder, Mesh, LinesMesh, StandardMaterial } from "@babylonjs/core";
+import {
+  Color3,
+  Color4,
+  Vector3,
+  MeshBuilder,
+  Mesh,
+  LinesMesh,
+  StandardMaterial,
+} from "@babylonjs/core";
 import type { BabylonSceneApi } from "../BabylonSceneHost";
 import { glow, hsl, starField } from "../graphics";
 
@@ -25,7 +33,12 @@ export function buildCollab({ scene }: BabylonSceneApi) {
   for (let i = 0; i < USERS; i++) {
     const c = MeshBuilder.CreateIcoSphere(`cursor${i}`, { radius: 0.5, subdivisions: 1 }, scene);
     c.material = glow(scene, hsl(cursorHues[i], 1, 0.7), 2.0);
-    cursors.push({ mesh: c, phase: (i / USERS) * Math.PI * 2, radius: 8 + (i % 3) * 3, speed: 0.3 + i * 0.05 });
+    cursors.push({
+      mesh: c,
+      phase: (i / USERS) * Math.PI * 2,
+      radius: 8 + (i % 3) * 3,
+      speed: 0.3 + i * 0.05,
+    });
   }
 
   // Connection beams (updated each frame).

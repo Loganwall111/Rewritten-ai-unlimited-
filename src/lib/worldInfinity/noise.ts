@@ -16,8 +16,8 @@ const FADE = (t: number) => t * t * t * (t * (t * 6 - 15) + 10);
 /** Build a hash-based gradient lookup seeded by `seed`. */
 function makeHasher(seed: number): (x: number, y: number) => number {
   // Two xorshift-style state words derived from the seed.
-  let s1 = seed >>> 0 || 0x9e3779b9;
-  let s2 = Math.imul(seed ^ 0x85ebca6b, 0xc2b2ae35) >>> 0;
+  const s1 = seed >>> 0 || 0x9e3779b9;
+  const s2 = Math.imul(seed ^ 0x85ebca6b, 0xc2b2ae35) >>> 0;
   const rotL = (v: number, n: number) => (v << n) | (v >>> (32 - n));
   return (x: number, y: number): number => {
     let h = Math.imul(x | 0, 0x27d4eb2d);
@@ -117,10 +117,7 @@ export class ScatterGrid {
    * The callback gets (x, z, jitterX, jitterZ, density01) and returns false to
    * skip placing a prop at that cell.
    */
-  forEach(
-    radius: number,
-    visit: (x: number, z: number, density: number) => boolean | void,
-  ): void {
+  forEach(radius: number, visit: (x: number, z: number, density: number) => boolean | void): void {
     const s = this.stride;
     const cells = Math.ceil(radius / s) + 1;
     for (let iz = -cells; iz <= cells; iz++) {

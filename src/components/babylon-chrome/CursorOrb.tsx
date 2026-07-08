@@ -28,7 +28,9 @@ export function CursorOrb({ hue = 190 }: { hue?: number }) {
       target.x = e.clientX;
       target.y = e.clientY;
       const el = e.target as HTMLElement | null;
-      setHovering(!!el?.closest("a, button, input, textarea, select, [role='button'], [data-cursor-hover]"));
+      setHovering(
+        !!el?.closest("a, button, input, textarea, select, [role='button'], [data-cursor-hover]"),
+      );
     };
     const onDown = () => setPressed(true);
     const onUp = () => setPressed(false);

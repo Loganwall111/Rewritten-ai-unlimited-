@@ -29,10 +29,7 @@ export function WorldLandmarks({
   playerRef: React.MutableRefObject<ExplorerPlayer>;
   onDiscover: (lm: Landmark) => void;
 }) {
-  const landmarks = useMemo(
-    () => generateLandmarks(archetype, seed),
-    [archetype, seed],
-  );
+  const landmarks = useMemo(() => generateLandmarks(archetype, seed), [archetype, seed]);
   const firedRef = useRef<Set<string>>(new Set());
 
   // Proximity discovery check.
@@ -51,7 +48,13 @@ export function WorldLandmarks({
   return (
     <group>
       {landmarks.map((lm) => (
-        <LandmarkBeacon key={lm.id} lm={lm} archetype={archetype} seed={seed} discovered={discovered.includes(lm.id)} />
+        <LandmarkBeacon
+          key={lm.id}
+          lm={lm}
+          archetype={archetype}
+          seed={seed}
+          discovered={discovered.includes(lm.id)}
+        />
       ))}
     </group>
   );

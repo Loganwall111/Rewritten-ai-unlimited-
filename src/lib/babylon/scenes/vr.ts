@@ -14,7 +14,11 @@ export function buildVR({ scene }: BabylonSceneApi) {
   starField(scene, 1200, 400);
 
   // Reflective neon grid floor.
-  const floor = MeshBuilder.CreateGround("floor", { width: 200, height: 200, subdivisions: 40 }, scene);
+  const floor = MeshBuilder.CreateGround(
+    "floor",
+    { width: 200, height: 200, subdivisions: 40 },
+    scene,
+  );
   const fmat = new StandardMaterial("fmat", scene);
   fmat.wireframe = true;
   fmat.emissiveColor = hsl(320, 1, 0.5);

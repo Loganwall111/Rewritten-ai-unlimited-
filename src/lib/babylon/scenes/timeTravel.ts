@@ -9,7 +9,16 @@ import { Color3, Color4, Vector3, MeshBuilder, Mesh, StandardMaterial } from "@b
 import type { BabylonSceneApi } from "../BabylonSceneHost";
 import { glow, hsl, nebulaParticles, starField } from "../graphics";
 
-const EPOCHS = ["BIG BANG", "STONE", "BRONZE", "IRON", "RENAISSANCE", "INDUSTRIAL", "DIGITAL", "STELLAR"];
+const EPOCHS = [
+  "BIG BANG",
+  "STONE",
+  "BRONZE",
+  "IRON",
+  "RENAISSANCE",
+  "INDUSTRIAL",
+  "DIGITAL",
+  "STELLAR",
+];
 
 export function buildTimeTravel({ scene }: BabylonSceneApi) {
   scene.clearColor = new Color4(0.04, 0.02, 0.08, 1);
@@ -22,7 +31,11 @@ export function buildTimeTravel({ scene }: BabylonSceneApi) {
   // Expanding epoch rings (recycled).
   const rings: Array<{ mesh: Mesh; phase: number }> = [];
   for (let i = 0; i < EPOCHS.length; i++) {
-    const ring = MeshBuilder.CreateTorus(`epoch${i}`, { diameter: 6, thickness: 0.3, tessellation: 64 }, scene);
+    const ring = MeshBuilder.CreateTorus(
+      `epoch${i}`,
+      { diameter: 6, thickness: 0.3, tessellation: 64 },
+      scene,
+    );
     ring.material = glow(scene, hsl(50 + i * 30, 0.9, 0.6), 1.2);
     ring.rotation.x = Math.PI / 2;
     rings.push({ mesh: ring, phase: i / EPOCHS.length });

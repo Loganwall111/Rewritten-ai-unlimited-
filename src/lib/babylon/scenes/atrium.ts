@@ -9,17 +9,10 @@
 
 import { Color3, Color4, Vector3, MeshBuilder, Mesh, Scalar } from "@babylonjs/core";
 import type { BabylonSceneApi } from "../BabylonSceneHost";
-import {
-  pbr,
-  glow,
-  glass,
-  hsl,
-} from "../graphics";
+import { pbr, glow, glass, hsl } from "../graphics";
 import { castShadow } from "../BabylonSceneHost";
 
-const DOOR_HUES = [
-  200, 280, 330, 40, 150, 180, 300, 90, 240, 15, 170, 55,
-];
+const DOOR_HUES = [200, 280, 330, 40, 150, 180, 300, 90, 240, 15, 170, 55];
 
 export function buildAtrium({ scene }: BabylonSceneApi) {
   scene.clearColor = new Color4(0.02, 0.025, 0.05, 1);
@@ -143,7 +136,11 @@ function buildDoor(
   const left = MeshBuilder.CreateBox(`frLeft${idx}`, { width: 0.6, height: 13, depth: 0.9 }, scene);
   left.position.x = -2.8;
   left.position.y = 6;
-  const right = MeshBuilder.CreateBox(`frRight${idx}`, { width: 0.6, height: 13, depth: 0.9 }, scene);
+  const right = MeshBuilder.CreateBox(
+    `frRight${idx}`,
+    { width: 0.6, height: 13, depth: 0.9 },
+    scene,
+  );
   right.position.x = 2.8;
   right.position.y = 6;
 

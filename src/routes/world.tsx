@@ -1497,7 +1497,8 @@ function WorldPage() {
                         Available Worlds
                       </h2>
                       <p className="text-sm text-[#E0F7FA]/70 mb-4">
-                        Three worlds are online, plus the open <span className="text-[#00F2FF]">World Infinity</span> forge.
+                        Three worlds are online, plus the open{" "}
+                        <span className="text-[#00F2FF]">World Infinity</span> forge.
                       </p>
                       <div className="text-left space-y-2">
                         {PORTALS.map((p) => (
