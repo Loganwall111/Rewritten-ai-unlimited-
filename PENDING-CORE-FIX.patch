@@ -1,0 +1,42 @@
+From 5681cfcad45db7af9875c1411d99ad3a874b88ca Mon Sep 17 00:00:00 2001
+From: Loganwall111 <108034448+Loganwall111@users.noreply.github.com>
+Date: Wed, 8 Jul 2026 18:44:00 +0000
+Subject: [PATCH] Babylon landing + interactive hub of doors (fixes '2D,
+ nothing visible')
+
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Root cause of the '2D / nothing working' report:
+
+1. ALL new 3D was gated behind isAuthed, and the landing was never upgraded
+   to Babylon — so with sign-in broken (missing env vars) you only ever saw
+   the old 2D landing.
+2. Env vars (.env) are gitignored and never deploy to Vercel.
+
+Fixes:
+
+- / (landing) now renders a full-bleed Babylon 'Cosmic Gateway' scene with
+  auth CTAs floating over it. Renders with ZERO env vars / no login — the
+  overhaul is visible the instant a visitor arrives.
+- /world is now an interactive Babylon 'Hub of Doors': PBR marble hall, 24
+  columns, shadow-casting sun, 12 clickable doors that portal-dive to each
+  world/section. No login to SEE it.
+- Landing links to the hub ('Explore the Hub of Doors — no sign-in required').
+- SETUP_LIVE.md: exact env-var list + how to disable Vercel SSO protection.
+
+Local only — this session's GitHub connection is closed; push from a new
+session.
+
+Co-authored-by: arena-agent <297053741+arena-agent@users.noreply.github.com>
+---
+ SETUP_LIVE.md                                 |   81 +
+ src/components/babylon-chrome/BabylonHub.tsx  |  471 +++++
+ .../babylon-chrome/BabylonLandingHero.tsx     |  211 +++
+ src/routes/index.tsx                          |  204 +--
+ src/routes/world.tsx                          | 1598 +----------------
+ 5 files changed, 786 insertions(+), 1779 deletions(-)
+ create mode 100644 SETUP_LIVE.md
+ create mode 100644 src/components/babylon-chrome/BabylonHub.tsx
+ create mode 100644 src/components/babylon-chrome/BabylonLandingHero.tsx
