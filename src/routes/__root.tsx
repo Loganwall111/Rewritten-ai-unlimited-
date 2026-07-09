@@ -41,7 +41,8 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   // Recognise the most common deploy-time failure: missing env vars.
   const isEnvMissing =
     error?.message?.includes("Missing Supabase environment variable") ||
-    error?.message?.includes("Missing LOVABLE_API_KEY");
+    error?.message?.includes("Missing OPENROUTER_API_KEY") ||
+    error?.message?.includes("Missing GEMINI_API_KEY");
   const isDev = typeof window !== "undefined" && window.location.hostname === "localhost";
 
   return (

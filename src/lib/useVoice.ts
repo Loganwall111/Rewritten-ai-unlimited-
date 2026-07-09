@@ -23,8 +23,7 @@ export function setSelectedVoiceId(id: string) {
 /**
  * Voice hook — three-tier pipeline:
  *   1. ElevenLabs neural TTS (via /tts server fn — needs ELEVENLABS_API_KEY)
- *   2. OpenAI TTS via Lovable AI Gateway (needs LOVABLE_API_KEY)
- *   3. Best available browser SpeechSynthesis voice (always works — but we
+ *   2. Best available browser SpeechSynthesis voice (always works — but we
  *      now pick a REAL human-sounding one: Google UK Female, Samantha, MS
  *      Aria Online, etc. — not the old robotic default).
  *

@@ -4,7 +4,7 @@ import { getVoiceById } from "./voices";
 /**
  * Text-to-speech server function.
  * Primary: ElevenLabs (if ELEVENLABS_API_KEY set)
- * Fallback: Lovable AI Gateway openai/gpt-4o-mini-tts
+ * Falls through to browser SpeechSynthesis voice (handled client-side).
  * Returns base64-encoded MP3 audio.
  */
 export const synthesizeSpeech = createServerFn({ method: "POST" })
@@ -53,30 +53,6 @@ export const synthesizeSpeech = createServerFn({ method: "POST" })
       }
     }
 
-    // Fallback: Lovable AI Gateway TTS
-    const lovableKey = process.env.LOVABLE_API_KEY;
-    if (!lovableKey) throw new Error("No TTS provider available");
-    const res = await fetch("https://ai.gateway.lovable.dev/v1/audio/speech", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${lovableKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: "openai/gpt-4o-mini-tts",
-        input: text,
-        voice: voice.openaiVoice,
-        response_format: "mp3",
-      }),
-    });
-    if (!res.ok) {
-      const err = await res.text().catch(() => "");
-      throw new Error(`Lovable AI TTS ${res.status}: ${err.slice(0, 200)}`);
-    }
-    const buf = await res.arrayBuffer();
-    return {
-      audio: Buffer.from(buf).toString("base64"),
-      mime: "audio/mpeg",
-      provider: "lovable-ai" as const,
-    };
+    // No TTS provider configured — throw so the client falls back to browser voice.
+    throw new Error("No TTS provider available");
   });
