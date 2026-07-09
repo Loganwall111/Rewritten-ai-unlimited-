@@ -257,7 +257,9 @@ function normalize(value: Partial<CosmeticsState> | null | undefined): Cosmetics
   };
 }
 
-function read(): CosmeticsState {
+let cosmeticsCache: CosmeticsState | null = null;
+
+function readFromStorage(): CosmeticsState {
   if (typeof window === "undefined") return defaultState();
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
@@ -267,7 +269,13 @@ function read(): CosmeticsState {
   }
 }
 
+function read(): CosmeticsState {
+  cosmeticsCache ??= readFromStorage();
+  return cosmeticsCache;
+}
+
 function write(state: CosmeticsState) {
+  cosmeticsCache = state;
   if (typeof window !== "undefined") {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     window.dispatchEvent(new CustomEvent(CHANGE_EVENT, { detail: state }));
@@ -322,12 +330,17 @@ export function ownsCosmetic(id: string): boolean {
 
 function subscribe(listener: () => void): () => void {
   if (typeof window === "undefined") return () => {};
-  const handler = () => listener();
-  window.addEventListener(CHANGE_EVENT, handler);
-  window.addEventListener("storage", handler);
+  const onCosmeticsChange = () => listener();
+  const onStorage = (event: StorageEvent) => {
+    if (event.key && event.key !== STORAGE_KEY) return;
+    cosmeticsCache = readFromStorage();
+    listener();
+  };
+  window.addEventListener(CHANGE_EVENT, onCosmeticsChange);
+  window.addEventListener("storage", onStorage);
   return () => {
-    window.removeEventListener(CHANGE_EVENT, handler);
-    window.removeEventListener("storage", handler);
+    window.removeEventListener(CHANGE_EVENT, onCosmeticsChange);
+    window.removeEventListener("storage", onStorage);
   };
 }
 

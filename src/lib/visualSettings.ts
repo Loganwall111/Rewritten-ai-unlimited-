@@ -196,7 +196,9 @@ function normalize(input: Partial<VisualSettings> | null | undefined): VisualSet
   };
 }
 
-function read(): VisualSettings {
+let visualSettingsCache: VisualSettings | null = null;
+
+function readFromStorage(): VisualSettings {
   if (typeof window === "undefined") return DEFAULT_VISUAL_SETTINGS;
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
@@ -206,7 +208,13 @@ function read(): VisualSettings {
   }
 }
 
+function read(): VisualSettings {
+  visualSettingsCache ??= readFromStorage();
+  return visualSettingsCache;
+}
+
 function write(settings: VisualSettings) {
+  visualSettingsCache = settings;
   if (typeof window === "undefined") return;
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
   window.dispatchEvent(new CustomEvent(CHANGE_EVENT, { detail: settings }));
@@ -255,12 +263,17 @@ export function applyVisualSettingsToDocument(settings: VisualSettings) {
 
 function subscribe(listener: () => void): () => void {
   if (typeof window === "undefined") return () => {};
-  const handler = () => listener();
-  window.addEventListener(CHANGE_EVENT, handler);
-  window.addEventListener("storage", handler);
+  const onSettingsChange = () => listener();
+  const onStorage = (event: StorageEvent) => {
+    if (event.key && event.key !== STORAGE_KEY) return;
+    visualSettingsCache = readFromStorage();
+    listener();
+  };
+  window.addEventListener(CHANGE_EVENT, onSettingsChange);
+  window.addEventListener("storage", onStorage);
   return () => {
-    window.removeEventListener(CHANGE_EVENT, handler);
-    window.removeEventListener("storage", handler);
+    window.removeEventListener(CHANGE_EVENT, onSettingsChange);
+    window.removeEventListener("storage", onStorage);
   };
 }
 
