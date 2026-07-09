@@ -1,9 +1,9 @@
 /**
- * Server route for streaming image generation.
+ * Server route for image generation via Google Imagen 3.
  *
  * Auth: verifies the caller's Supabase session token, spends credits, records
- * a generation_jobs row on success. Passes through the AI Gateway SSE stream
- * to the browser.
+ * a generation_jobs row on success. Returns an SSE stream in the same format
+ * as the old gateway so the frontend doesn't change.
  *
  * Body: { model: string, prompt: string }
  */
@@ -33,8 +33,8 @@ export const Route = createFileRoute("/api/images")({
         const userId = await verifyUser(request);
         if (!userId) return new Response("Unauthorized", { status: 401 });
 
-        const lovableKey = process.env.LOVABLE_API_KEY;
-        if (!lovableKey) return new Response("LOVABLE_API_KEY missing", { status: 500 });
+        const geminiKey = process.env.GEMINI_API_KEY;
+        if (!geminiKey) return new Response("GEMINI_API_KEY missing", { status: 500 });
 
         const body = (await request.json().catch(() => null)) as {
           model?: string;
@@ -42,7 +42,7 @@ export const Route = createFileRoute("/api/images")({
         } | null;
         if (!body?.prompt) return new Response("Missing prompt", { status: 400 });
 
-        const modelId = body.model ?? "openai/gpt-image-2";
+        const modelId = body.model ?? "google/imagen-3";
         const model = getModel(modelId);
         if (!model || !model.modality.includes("image")) {
           return new Response(`Not an image model: ${modelId}`, { status: 400 });
@@ -71,67 +71,86 @@ export const Route = createFileRoute("/api/images")({
           metadata: { model: model.id, prompt: body.prompt.slice(0, 200) },
         });
 
-        // Build the per-model body
-        let gwBody: Record<string, unknown>;
-        if (modelId.startsWith("openai/")) {
-          gwBody = {
+        try {
+          const imagenUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${geminiKey}`;
+
+          const upstream = await fetch(imagenUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              instances: [{ prompt: body.prompt }],
+              parameters: { sampleCount: 1 },
+            }),
+          });
+
+          if (!upstream.ok) {
+            const err = await upstream.text().catch(() => "");
+            // Refund credits on hard failure
+            await supabaseAdmin.from("credit_ledger").insert({
+              user_id: userId,
+              delta: model.credits,
+              reason: "refund_image_gen_failed",
+              metadata: { model: model.id, status: upstream.status },
+            });
+            return new Response(err || `Imagen ${upstream.status}`, { status: upstream.status });
+          }
+
+          const data = (await upstream.json()) as {
+            predictions?: { bytesBase64Encoded?: string }[];
+          };
+
+          const b64 = data.predictions?.[0]?.bytesBase64Encoded;
+          if (!b64) {
+            await supabaseAdmin.from("credit_ledger").insert({
+              user_id: userId,
+              delta: model.credits,
+              reason: "refund_image_gen_failed",
+              metadata: { model: model.id, status: "no_image" },
+            });
+            return new Response(JSON.stringify({ error: "Imagen returned no image" }), {
+              status: 502,
+              headers: { "content-type": "application/json" },
+            });
+          }
+
+          // Best-effort record — insert immediately so history shows the request.
+          await supabaseAdmin.from("generation_jobs").insert({
+            user_id: userId,
+            kind: "image",
             model: modelId,
             prompt: body.prompt,
-            size: "1024x1024",
-            quality: "low",
-            n: 1,
-            stream: true,
-            partial_images: 1,
-          };
-        } else {
-          // Gemini image models — chat-completions image shape
-          gwBody = {
-            model: modelId,
-            messages: [{ role: "user", content: body.prompt }],
-            modalities: ["image", "text"],
-            stream: true,
-          };
-        }
+            status: "completed",
+            credits_spent: model.credits,
+          });
 
-        const upstream = await fetch("https://ai.gateway.lovable.dev/v1/images/generations", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Lovable-API-Key": lovableKey,
-          },
-          body: JSON.stringify(gwBody),
-        });
+          // Return as SSE stream matching the old gateway format so
+          // src/lib/streamImage.ts can parse it without changes.
+          const sseBody = [
+            `event: image_generation.completed`,
+            `data: ${JSON.stringify({ type: "image_generation.completed", b64_json: b64 })}`,
+            "",
+          ].join("\n");
 
-        if (!upstream.ok || !upstream.body) {
-          const err = await upstream.text().catch(() => "");
-          // Refund credits on hard failure
+          return new Response(sseBody, {
+            headers: {
+              "Content-Type": "text/event-stream",
+              "Cache-Control": "no-cache",
+              "X-Credits-Spent": String(model.credits),
+            },
+          });
+        } catch (e) {
+          // Refund credits on unexpected errors
           await supabaseAdmin.from("credit_ledger").insert({
             user_id: userId,
             delta: model.credits,
             reason: "refund_image_gen_failed",
-            metadata: { model: model.id, status: upstream.status },
+            metadata: { model: model.id, error: (e as Error).message?.slice(0, 200) },
           });
-          return new Response(err || `Gateway ${upstream.status}`, { status: upstream.status });
+          return new Response(
+            JSON.stringify({ error: `Image generation error: ${(e as Error).message}` }),
+            { status: 500, headers: { "content-type": "application/json" } },
+          );
         }
-
-        // Best-effort record — insert immediately (before stream completes) so
-        // history shows the request; downstream client saves the final image.
-        await supabaseAdmin.from("generation_jobs").insert({
-          user_id: userId,
-          kind: "image",
-          model: modelId,
-          prompt: body.prompt,
-          status: "completed",
-          credits_spent: model.credits,
-        });
-
-        return new Response(upstream.body, {
-          headers: {
-            "Content-Type": "text/event-stream",
-            "Cache-Control": "no-cache",
-            "X-Lovable-Credits-Spent": String(model.credits),
-          },
-        });
       },
     },
   },

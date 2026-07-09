@@ -16,8 +16,8 @@ import { MODELS, type ModelDef } from "./models";
  *      single, warm, brief spoken paragraph — attributing insights.
  *   4. Return the fused answer plus the list of contributing models.
  *
- * All calls go through the existing Lovable AI Gateway (same env
- * `LOVABLE_API_KEY` used by /api/chat), so no new secrets needed.
+ * All calls go through OpenRouter (same env `OPENROUTER_API_KEY` used by
+ * /api/chat), so no new secrets needed.
  */
 
 type ChatMsg = { role: "system" | "user" | "assistant"; content: string };
@@ -57,11 +57,13 @@ function pickRouted(text: string, k = 3): ModelDef[] {
 }
 
 async function callGateway(apiKey: string, model: string, messages: ChatMsg[]): Promise<string> {
-  const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+  const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
     method: "POST",
     headers: {
       "content-type": "application/json",
-      "Lovable-API-Key": apiKey,
+      Authorization: `Bearer ${apiKey}`,
+      "HTTP-Referer": "https://rewritten-ai-unlimited.vercel.app",
+      "X-Title": "Rewritten AI",
     },
     body: JSON.stringify({ model, messages }),
   });
@@ -91,11 +93,11 @@ export const singularityAsk = createServerFn({ method: "POST" })
     };
   })
   .handler(async ({ data }) => {
-    const key = process.env.LOVABLE_API_KEY;
+    const key = process.env.OPENROUTER_API_KEY;
     if (!key) {
       return {
         ok: false as const,
-        error: "LOVABLE_API_KEY is not configured on the server.",
+        error: "OPENROUTER_API_KEY is not configured on the server.",
       };
     }
     const routed = pickRouted(data.text, data.blend ?? 3);
