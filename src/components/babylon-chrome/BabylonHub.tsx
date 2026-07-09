@@ -38,36 +38,49 @@ interface DoorDef {
   blurb: string;
 }
 
-/** The 12 destinations the hub doors lead to. */
+/** The 12 destinations the hub doors lead to (includes walkable play worlds). */
 const DOORS: DoorDef[] = [
-  { id: "gateway", label: "Cosmic Gateway", hue: 190, to: "/", blurb: "The entry nebula." },
   {
-    id: "cathedral",
-    label: "Nebula Cathedral",
-    hue: 280,
-    to: "/scenes/nebula-cathedral",
-    blurb: "Singularity + 5k particles.",
+    id: "gateway",
+    label: "Walkable Gateway",
+    hue: 190,
+    to: "/",
+    blurb: "WASD · 20 playable worlds.",
   },
   {
     id: "ocean",
-    label: "Quantum Ocean",
+    label: "Quantum Ocean Swim",
     hue: 175,
-    to: "/scenes/quantum-ocean",
-    blurb: "Whale loop + reef.",
+    to: "/play/quantum-ocean",
+    blurb: "Space up · Shift dive.",
   },
   {
-    id: "singularity",
-    label: "Singularity",
-    hue: 265,
-    to: "/scenes/black-hole",
-    blurb: "Event horizon.",
+    id: "void",
+    label: "The Void",
+    hue: 280,
+    to: "/play/void",
+    blurb: "Zero-G star abyss.",
+  },
+  {
+    id: "cyber",
+    label: "Cyber City",
+    hue: 320,
+    to: "/play/cyber-city",
+    blurb: "Neon grid streets.",
+  },
+  {
+    id: "islands",
+    label: "Floating Islands",
+    hue: 195,
+    to: "/play/floating-islands",
+    blurb: "Sky archipelago.",
   },
   {
     id: "scenes",
-    label: "All Cinematic Scenes",
+    label: "Cinematic Scenes",
     hue: 300,
     to: "/scenes",
-    blurb: "22 Babylon worlds.",
+    blurb: "22 orbit worlds.",
   },
   {
     id: "infinity",
@@ -78,7 +91,6 @@ const DOORS: DoorDef[] = [
   },
   { id: "chat", label: "Chat & Research", hue: 220, to: "/chat", blurb: "Every model." },
   { id: "image", label: "Image Studio", hue: 320, to: "/image", blurb: "Nano Banana." },
-  { id: "video", label: "Video Forge", hue: 285, to: "/video", blurb: "Sora + Runway." },
   {
     id: "multiverse",
     label: "Multiverse",
