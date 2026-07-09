@@ -1,9 +1,10 @@
 /**
  * Model + voice catalog.
  *
- * Model IDs used for chat and image generation MUST match Lovable AI Gateway
- * model IDs (vendor/model). Video models are labels only — the actual video
- * provider is selected server-side (see src/lib/video.functions.ts).
+ * Chat model IDs are passed to OpenRouter (vendor/model format).
+ * Image generation uses Google Imagen 3 directly (GEMINI_API_KEY).
+ * Video models are labels only — the actual video provider is selected
+ * server-side (see src/lib/video.functions.ts).
  */
 
 export type Modality = "text" | "image" | "video" | "code" | "audio";
@@ -105,13 +106,24 @@ export const MODELS: ModelDef[] = [
 
   // === Image ===
   {
+    id: "google/imagen-3",
+    name: "Imagen 3",
+    provider: "Google",
+    modality: ["image"],
+    tier: "hosted",
+    credits: 6,
+    desc: "Default image model (Imagen 3 via Gemini API).",
+    requiresKey: "GEMINI_API_KEY",
+  },
+  {
     id: "openai/gpt-image-2",
     name: "GPT Image 2",
     provider: "OpenAI",
     modality: ["image"],
     tier: "hosted",
     credits: 6,
-    desc: "Default image model.",
+    desc: "OpenAI image model (requires OPENAI_API_KEY).",
+    requiresKey: "OPENAI_API_KEY",
   },
   {
     id: "openai/gpt-image-1-mini",
