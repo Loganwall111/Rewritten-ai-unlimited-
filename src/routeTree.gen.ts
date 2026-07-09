@@ -16,6 +16,7 @@ import { Route as AwakeningRouteImport } from './routes/awakening'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PlayWorldRouteImport } from './routes/play.$world'
 import { Route as ApiPaddleWebhookRouteImport } from './routes/api/paddle-webhook'
 import { Route as ApiImagesRouteImport } from './routes/api/images'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
@@ -70,6 +71,11 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlayWorldRoute = PlayWorldRouteImport.update({
+  id: '/play/$world',
+  path: '/play/$world',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPaddleWebhookRoute = ApiPaddleWebhookRouteImport.update({
@@ -208,6 +214,7 @@ export interface FileRoutesByFullPath {
   '/api/chat': typeof ApiChatRoute
   '/api/images': typeof ApiImagesRoute
   '/api/paddle-webhook': typeof ApiPaddleWebhookRoute
+  '/play/$world': typeof PlayWorldRoute
   '/scenes/$slug': typeof AuthenticatedScenesSlugRoute
   '/scenes/': typeof AuthenticatedScenesIndexRoute
 }
@@ -237,6 +244,7 @@ export interface FileRoutesByTo {
   '/api/chat': typeof ApiChatRoute
   '/api/images': typeof ApiImagesRoute
   '/api/paddle-webhook': typeof ApiPaddleWebhookRoute
+  '/play/$world': typeof PlayWorldRoute
   '/scenes/$slug': typeof AuthenticatedScenesSlugRoute
   '/scenes': typeof AuthenticatedScenesIndexRoute
 }
@@ -268,6 +276,7 @@ export interface FileRoutesById {
   '/api/chat': typeof ApiChatRoute
   '/api/images': typeof ApiImagesRoute
   '/api/paddle-webhook': typeof ApiPaddleWebhookRoute
+  '/play/$world': typeof PlayWorldRoute
   '/_authenticated/scenes/$slug': typeof AuthenticatedScenesSlugRoute
   '/_authenticated/scenes/': typeof AuthenticatedScenesIndexRoute
 }
@@ -299,6 +308,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/api/images'
     | '/api/paddle-webhook'
+    | '/play/$world'
     | '/scenes/$slug'
     | '/scenes/'
   fileRoutesByTo: FileRoutesByTo
@@ -328,6 +338,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/api/images'
     | '/api/paddle-webhook'
+    | '/play/$world'
     | '/scenes/$slug'
     | '/scenes'
   id:
@@ -358,6 +369,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/api/images'
     | '/api/paddle-webhook'
+    | '/play/$world'
     | '/_authenticated/scenes/$slug'
     | '/_authenticated/scenes/'
   fileRoutesById: FileRoutesById
@@ -373,6 +385,7 @@ export interface RootRouteChildren {
   ApiChatRoute: typeof ApiChatRoute
   ApiImagesRoute: typeof ApiImagesRoute
   ApiPaddleWebhookRoute: typeof ApiPaddleWebhookRoute
+  PlayWorldRoute: typeof PlayWorldRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -424,6 +437,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/play/$world': {
+      id: '/play/$world'
+      path: '/play/$world'
+      fullPath: '/play/$world'
+      preLoaderRoute: typeof PlayWorldRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/paddle-webhook': {
@@ -632,6 +652,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiChatRoute: ApiChatRoute,
   ApiImagesRoute: ApiImagesRoute,
   ApiPaddleWebhookRoute: ApiPaddleWebhookRoute,
+  PlayWorldRoute: PlayWorldRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
