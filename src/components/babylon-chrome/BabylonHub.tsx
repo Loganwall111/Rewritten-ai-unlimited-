@@ -21,8 +21,7 @@ import {
   MeshBuilder,
   Mesh,
   StandardMaterial,
-  ActionManager,
-  ExecuteCodeAction,
+  PointerEventTypes,
   Scalar,
 } from "@babylonjs/core";
 import { BabylonSceneHost, type BabylonSceneApi } from "@/lib/babylon/BabylonSceneHost";
@@ -194,7 +193,8 @@ export function BabylonHub() {
         castShadow(scene, col);
       }
 
-      // 12 clickable doors.
+      // 12 clickable doors. We raycast with scene.pick because the orbit camera
+      // consumes ActionManager pick events while dragging/orbiting.
       DOORS.forEach((door, i) => {
         const a = (i / 12) * Math.PI * 2;
         const r = 22;
@@ -206,6 +206,27 @@ export function BabylonHub() {
         );
         group.position.set(Math.cos(a) * r, 0, Math.sin(a) * r);
         group.rotation.y = -a + Math.PI / 2;
+      });
+      let hoveredDoor: Mesh | null = null;
+      scene.onPointerObservable.add((info) => {
+        if (
+          info.type !== PointerEventTypes.POINTERMOVE &&
+          info.type !== PointerEventTypes.POINTERDOWN
+        )
+          return;
+        const pick = scene.pick(scene.pointerX, scene.pointerY, (mesh) =>
+          Boolean(mesh.metadata?.doorId),
+        );
+        const mesh = (pick?.pickedMesh as Mesh | null) ?? null;
+        if (info.type === PointerEventTypes.POINTERMOVE) {
+          if (mesh !== hoveredDoor) {
+            hoveredDoor?.metadata?.unhighlight?.();
+            hoveredDoor = mesh;
+            hoveredDoor?.metadata?.highlight?.();
+          }
+          return;
+        }
+        mesh?.metadata?.click?.();
       });
 
       // Animate the core.
@@ -450,29 +471,29 @@ function buildClickableDoor(
   // Merge into one group for clean positioning.
   const merged = Mesh.MergeMeshes([doorMesh, top, bot, left, right], true, true)!;
 
-  // Clickable: attach action manager to each child via the merged mesh.
-  merged.actionManager = new ActionManager(scene);
+  let highlighted = false;
   const highlight = () => {
+    if (highlighted) return;
+    highlighted = true;
     doorMat.emissiveColor = hsl(door.hue, 1, 0.5);
-    frameMat.emissiveColor = baseEmissive.scale(2.2);
     onHover();
   };
   const unhighlight = () => {
+    highlighted = false;
     doorMat.emissiveColor = hsl(door.hue, 0.9, 0.25);
-    frameMat.emissiveColor = baseEmissive;
   };
-  merged.actionManager.registerAction(
-    new ExecuteCodeAction(ActionManager.OnPointerOverTrigger, highlight),
-  );
-  merged.actionManager.registerAction(
-    new ExecuteCodeAction(ActionManager.OnPointerOutTrigger, unhighlight),
-  );
-  merged.actionManager.registerAction(new ExecuteCodeAction(ActionManager.OnPickTrigger, onClick));
+  merged.metadata = {
+    ...(merged.metadata ?? {}),
+    doorId: door.id,
+    highlight,
+    unhighlight,
+    click: onClick,
+  };
 
   // Gentle idle pulse per door.
   const phase = Scalar.RandomRange(0, Math.PI * 2);
   scene.onBeforeRenderObservable.add(() => {
-    const pulse = 1 + Math.sin(performance.now() * 0.001 + phase) * 0.15;
+    const pulse = 1 + Math.sin(performance.now() * 0.001 + phase) * 0.15 + (highlighted ? 1.1 : 0);
     frameMat.emissiveColor = baseEmissive.scale(pulse);
   });
 

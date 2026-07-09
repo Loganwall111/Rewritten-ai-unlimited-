@@ -41,6 +41,7 @@ import {
   type WeatherController,
   type WeatherKind,
 } from "./lifeSystems";
+import { enableHavok } from "./havok";
 
 export interface WalkableSceneApi {
   engine: Engine;
@@ -209,7 +210,6 @@ export function WalkableHost({
       if (clearColor) scene.clearColor = clearColor;
       else scene.clearColor = new Color4(0.02, 0.04, 0.08, 1);
       scene.ambientColor = new Color3(ambient, ambient, ambient);
-      scene.useRightHandedSystem = true;
 
       if (fog) {
         scene.fogMode = fog.mode ?? Scene.FOGMODE_EXP2;
@@ -381,6 +381,10 @@ export function WalkableHost({
         window.removeEventListener("mouseup", onMouseUp);
         if (document.pointerLockElement === canvas) document.exitPointerLock?.();
       });
+
+      // Physics: lazy Havok WASM. Fails gracefully and stores null in metadata.
+      await enableHavok(scene!);
+      if (disposed) return;
 
       // API for scene builders
       const api: WalkableSceneApi = {

@@ -817,3 +817,48 @@ body.ominous::before {
       0 0 140px 40px rgba(124, 58, 237, 0.55);
   }
 }
+
+/* VisualSettingsPanel gates these HD overlays via React; these rules define the optional VHS pass. */
+.vhs-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 101;
+  pointer-events: none;
+  opacity: 0.12;
+  mix-blend-mode: screen;
+  background:
+    linear-gradient(90deg, rgba(255, 0, 80, 0.12), transparent 18%, rgba(0, 242, 255, 0.1) 82%, transparent),
+    repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.14) 0 1px, transparent 1px 5px);
+  animation: vhsDrift 2.8s steps(8) infinite;
+}
+@keyframes vhsDrift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+    filter: hue-rotate(0deg);
+  }
+  35% {
+    transform: translate3d(1px, -1px, 0);
+    filter: hue-rotate(8deg);
+  }
+  70% {
+    transform: translate3d(-1px, 1px, 0);
+    filter: hue-rotate(-6deg);
+  }
+}
+
+:root[data-bloom="false"] .orb-btn,
+:root[data-bloom="false"] .portal-tab,
+:root[data-bloom="false"] .glass-panel,
+:root[data-bloom="false"] .glass-panel-strong {
+  box-shadow: none !important;
+}
+
+:root[data-reduced-motion="true"] *,
+:root[data-vr-mode="true"] * {
+  scroll-behavior: auto !important;
+}
+:root[data-reduced-motion="true"] .vhs-overlay,
+:root[data-vr-mode="true"] .vhs-overlay {
+  animation: none;
+}
