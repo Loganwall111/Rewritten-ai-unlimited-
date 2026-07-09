@@ -11,6 +11,7 @@ import { motion } from "framer-motion";
 import { ArrowLeft, Map, User } from "lucide-react";
 import { WalkableHost } from "@/lib/babylon/WalkableHost";
 import { getPlayable, PLAYABLE_WORLDS } from "@/lib/babylon/playableRegistry";
+import InventoryBar from "@/components/InventoryBar";
 import { sfxHover, playClick } from "@/lib/sound";
 
 export const Route = createFileRoute("/play/$world")({
@@ -89,6 +90,8 @@ function PlayWorldRoute() {
         }}
         className="absolute inset-0"
       >
+        <InventoryBar />
+
         {/* Top bar */}
         <motion.div
           initial={{ opacity: 0, y: -16 }}
