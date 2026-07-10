@@ -17,6 +17,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PlayWorldRouteImport } from './routes/play.$world'
+import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as ApiPaddleWebhookRouteImport } from './routes/api/paddle-webhook'
 import { Route as ApiImagesRouteImport } from './routes/api/images'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
@@ -77,6 +78,11 @@ const PlayWorldRoute = PlayWorldRouteImport.update({
   id: '/play/$world',
   path: '/play/$world',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthCallbackRoute = AuthCallbackRouteImport.update({
+  id: '/callback',
+  path: '/callback',
+  getParentRoute: () => AuthRoute,
 } as any)
 const ApiPaddleWebhookRoute = ApiPaddleWebhookRouteImport.update({
   id: '/api/paddle-webhook',
@@ -190,7 +196,7 @@ const AuthenticatedScenesSlugRoute = AuthenticatedScenesSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/auth': typeof AuthRoute
+  '/auth': typeof AuthRouteWithChildren
   '/awakening': typeof AwakeningRoute
   '/os': typeof OsRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -214,13 +220,14 @@ export interface FileRoutesByFullPath {
   '/api/chat': typeof ApiChatRoute
   '/api/images': typeof ApiImagesRoute
   '/api/paddle-webhook': typeof ApiPaddleWebhookRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/play/$world': typeof PlayWorldRoute
   '/scenes/$slug': typeof AuthenticatedScenesSlugRoute
   '/scenes/': typeof AuthenticatedScenesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/auth': typeof AuthRoute
+  '/auth': typeof AuthRouteWithChildren
   '/awakening': typeof AwakeningRoute
   '/os': typeof OsRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -244,6 +251,7 @@ export interface FileRoutesByTo {
   '/api/chat': typeof ApiChatRoute
   '/api/images': typeof ApiImagesRoute
   '/api/paddle-webhook': typeof ApiPaddleWebhookRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/play/$world': typeof PlayWorldRoute
   '/scenes/$slug': typeof AuthenticatedScenesSlugRoute
   '/scenes': typeof AuthenticatedScenesIndexRoute
@@ -252,7 +260,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
-  '/auth': typeof AuthRoute
+  '/auth': typeof AuthRouteWithChildren
   '/awakening': typeof AwakeningRoute
   '/os': typeof OsRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -276,6 +284,7 @@ export interface FileRoutesById {
   '/api/chat': typeof ApiChatRoute
   '/api/images': typeof ApiImagesRoute
   '/api/paddle-webhook': typeof ApiPaddleWebhookRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/play/$world': typeof PlayWorldRoute
   '/_authenticated/scenes/$slug': typeof AuthenticatedScenesSlugRoute
   '/_authenticated/scenes/': typeof AuthenticatedScenesIndexRoute
@@ -308,6 +317,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/api/images'
     | '/api/paddle-webhook'
+    | '/auth/callback'
     | '/play/$world'
     | '/scenes/$slug'
     | '/scenes/'
@@ -338,6 +348,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/api/images'
     | '/api/paddle-webhook'
+    | '/auth/callback'
     | '/play/$world'
     | '/scenes/$slug'
     | '/scenes'
@@ -369,6 +380,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/api/images'
     | '/api/paddle-webhook'
+    | '/auth/callback'
     | '/play/$world'
     | '/_authenticated/scenes/$slug'
     | '/_authenticated/scenes/'
@@ -377,7 +389,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
-  AuthRoute: typeof AuthRoute
+  AuthRoute: typeof AuthRouteWithChildren
   AwakeningRoute: typeof AwakeningRoute
   OsRoute: typeof OsRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
@@ -445,6 +457,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/play/$world'
       preLoaderRoute: typeof PlayWorldRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/auth/callback': {
+      id: '/auth/callback'
+      path: '/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof AuthRoute
     }
     '/api/paddle-webhook': {
       id: '/api/paddle-webhook'
@@ -641,10 +660,20 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface AuthRouteChildren {
+  AuthCallbackRoute: typeof AuthCallbackRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthCallbackRoute: AuthCallbackRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
-  AuthRoute: AuthRoute,
+  AuthRoute: AuthRouteWithChildren,
   AwakeningRoute: AwakeningRoute,
   OsRoute: OsRoute,
   ResetPasswordRoute: ResetPasswordRoute,
@@ -657,13 +686,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

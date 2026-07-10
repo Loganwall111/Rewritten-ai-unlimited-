@@ -54,6 +54,11 @@ function createSupabaseClient() {
       storage: typeof window !== "undefined" ? localStorage : undefined,
       persistSession: true,
       autoRefreshToken: true,
+      // Parse access_token / type=signup from email-confirm + OAuth redirects.
+      // Keep the default flowType ("implicit") so email confirmation links
+      // (hash tokens) keep working. /auth/callback also handles ?code= PKCE
+      // exchanges explicitly via exchangeCodeForSession.
+      detectSessionInUrl: true,
     },
   });
 }
