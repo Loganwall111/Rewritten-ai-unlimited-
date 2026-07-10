@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
 import { LensWrap } from "@/components/effects/GravitationalLens";
 import { playClick, playError, playSuccess } from "@/lib/sound";
+import { getAppOrigin, getAuthCallbackUrl } from "@/lib/appUrl";
 
 const searchSchema = z.object({
   mode: z.enum(["login", "register", "forgot"]).optional(),
@@ -77,11 +78,14 @@ function AuthPage() {
     setInfo(null);
     setLoading(true);
     playClick();
+    // Land on /auth/callback (public) so the session can be established
+    // before the authenticated /home gate runs. Never hardcode localhost —
+    // getAuthCallbackUrl prefers VITE_SITE_URL in production.
     const { error } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        emailRedirectTo: `${window.location.origin}/home`,
+        emailRedirectTo: getAuthCallbackUrl(search.next ?? "/home"),
         data: { display_name: displayName || email.split("@")[0] },
       },
     });
@@ -102,8 +106,10 @@ function AuthPage() {
     setInfo(null);
     setLoading(true);
     playClick();
+    // Recovery links also go through /auth/callback, which detects
+    // PASSWORD_RECOVERY and forwards to /reset-password.
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset-password`,
+      redirectTo: getAuthCallbackUrl("/reset-password"),
     });
     setLoading(false);
     if (error) {
@@ -115,19 +121,93 @@ function AuthPage() {
     setInfo("If that email exists, a reset link is on its way.");
   };
 
+  /**
+   * Google sign-in.
+   *
+   * Lovable's OAuth broker (`/~oauth/initiate`) ONLY exists on Lovable-hosted
+   * previews. On Vercel / custom domains that path 404s ("AIR 404" / page not
+   * found) — and the broker does a hard `window.location` redirect before we
+   * can catch the failure. So we only use the broker on known Lovable hosts;
+   * everywhere else we go straight to native Supabase Google OAuth, which
+   * returns to /auth/callback on this domain.
+   */
   const handleGoogle = async () => {
     setError(null);
+    setLoading(true);
     playClick();
-    const res = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
-    });
-    if (res.error) {
-      setError(res.error.message ?? "Google sign-in failed");
-      playError();
-      return;
+
+    const callbackUrl = getAuthCallbackUrl(search.next ?? "/home");
+    const origin = getAppOrigin() || (typeof window !== "undefined" ? window.location.origin : "");
+    const host = typeof window !== "undefined" ? window.location.hostname : "";
+    // Only real Lovable preview hosts serve /~oauth/initiate. Plain
+    // localhost (vite dev) and Vercel do not — using the broker there
+    // navigates to a hard 404 ("AIR 404" / page not found).
+    const isLovableHost =
+      host.endsWith(".lovable.app") ||
+      host.endsWith(".lovable.dev") ||
+      host.endsWith(".lovableproject.com");
+
+    // 1) Lovable broker — only when the host actually serves /~oauth/initiate.
+    //    Skip on Vercel/production so we never navigate into a dead 404 route.
+    if (isLovableHost) {
+      try {
+        const res = await lovable.auth.signInWithOAuth("google", {
+          redirect_uri: callbackUrl,
+        });
+        if (res.redirected) {
+          // Full-page redirect to the broker — leave loading on.
+          return;
+        }
+        if (!res.error && res.tokens) {
+          setLoading(false);
+          playSuccess();
+          goNext();
+          return;
+        }
+        if (res.error) {
+          console.warn(
+            "[auth] Lovable OAuth broker failed, falling back to Supabase:",
+            res.error.message,
+          );
+        }
+      } catch (e) {
+        console.warn("[auth] Lovable OAuth broker threw, falling back to Supabase:", e);
+      }
     }
-    if (res.redirected) return;
-    goNext();
+
+    // 2) Native Supabase Google OAuth — works on any host once Google is
+    //    enabled in Supabase → Authentication → Providers and Redirect URLs
+    //    include this origin + /auth/callback.
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: callbackUrl,
+          skipBrowserRedirect: false,
+          queryParams: {
+            prompt: "select_account",
+          },
+        },
+      });
+      if (error) {
+        setLoading(false);
+        setError(
+          error.message ||
+            `Google sign-in failed. Enable the Google provider in Supabase Auth and add ${origin}/auth/callback to Redirect URLs.`,
+        );
+        playError();
+        return;
+      }
+      if (data?.url && typeof window !== "undefined") {
+        window.location.assign(data.url);
+        return;
+      }
+      setLoading(false);
+    } catch (e) {
+      setLoading(false);
+      setError(e instanceof Error ? e.message : "Google sign-in failed");
+      playError();
+    }
   };
 
   return (

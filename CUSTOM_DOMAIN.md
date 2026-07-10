@@ -73,11 +73,15 @@ The webhook secret stays the same — no need to change your Vercel env var.
 
 ## Step 7 · Update any Supabase auth redirect URLs
 
-If you're using Supabase Auth with OAuth (e.g. Google sign-in):
+If you're using Supabase Auth with OAuth (e.g. Google sign-in) or email confirmation:
 
 1. Supabase → **Authentication → URL Configuration**
 2. **Site URL**: `https://YOUR-CUSTOM-DOMAIN`
-3. **Redirect URLs**: add `https://YOUR-CUSTOM-DOMAIN/**` (or the specific callback path)
+   - Leaving this as `http://localhost:5173` is the #1 cause of "localhost page not found" when users click confirmation emails.
+3. **Redirect URLs**: add:
+   - `https://YOUR-CUSTOM-DOMAIN/**`
+   - `https://YOUR-CUSTOM-DOMAIN/auth/callback` (the app's public auth landing)
+4. In Vercel env vars set `VITE_SITE_URL=https://YOUR-CUSTOM-DOMAIN` and redeploy — this is what the app embeds into email/OAuth redirect links.
 
 ## Step 8 · Verify end-to-end
 

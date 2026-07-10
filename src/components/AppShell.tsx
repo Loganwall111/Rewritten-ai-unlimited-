@@ -55,7 +55,11 @@ const INTRO_KEY = "rewritten_intro_played";
  */
 export default function AppShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const isAuthPage = pathname === "/auth" || pathname === "/reset-password";
+  const isAuthPage =
+    pathname === "/auth" ||
+    pathname === "/reset-password" ||
+    pathname === "/auth/callback" ||
+    pathname.startsWith("/auth/");
   const isPublicLanding = pathname === "/";
   // Fully immersive: hides ALL app chrome (sidebars, HUD, mic, background layers)
   const isFullyImmersive = pathname === "/world" || pathname === "/os" || pathname === "/awakening";

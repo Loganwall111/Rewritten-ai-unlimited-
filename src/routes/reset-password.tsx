@@ -19,14 +19,32 @@ function ResetPassword() {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    // Supabase sets a temporary session from the reset link hash. Wait for it.
+    // Supabase sets a temporary session from the reset link hash (or from
+    // /auth/callback which forwards recovery events here). Wait for it.
+    let cancelled = false;
     const { data: sub } = supabase.auth.onAuthStateChange((event) => {
-      if (event === "PASSWORD_RECOVERY" || event === "SIGNED_IN") setReady(true);
+      if (event === "PASSWORD_RECOVERY" || event === "SIGNED_IN" || event === "USER_UPDATED") {
+        if (!cancelled) setReady(true);
+      }
     });
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) setReady(true);
+      if (!cancelled && data.session) setReady(true);
     });
-    return () => sub.subscription.unsubscribe();
+    // Soft timeout so the user isn't stuck on "Waiting…" forever if the
+    // link was already consumed or the Site URL pointed at the wrong host.
+    const t = setTimeout(() => {
+      if (!cancelled) {
+        setReady((r) => {
+          if (!r) setError("Reset link expired or invalid. Request a new one from Sign in → Forgot password.");
+          return r;
+        });
+      }
+    }, 10000);
+    return () => {
+      cancelled = true;
+      clearTimeout(t);
+      sub.subscription.unsubscribe();
+    };
   }, []);
 
   const submit = async (e: React.FormEvent) => {
